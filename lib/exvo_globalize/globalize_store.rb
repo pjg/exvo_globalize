@@ -3,6 +3,9 @@ module I18n
     class GlobalizeStore
       # based on https://github.com/svenfuchs/i18n-active_record/blob/master/lib/i18n/backend/active_record.rb
 
+      # Authentication proc
+      cattr_accessor :authenticator
+
       module Implementation
         include Base, Flatten
 

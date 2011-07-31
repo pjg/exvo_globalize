@@ -16,7 +16,15 @@ app.initialize!
 
 # application controller
 class ApplicationController < ActionController::Base
+  def require_admin
+     redirect_to '/403.html', :status => 403 unless @current_user && @current_user.admin?
+  end
 end
+
+# custom authentication
+I18n::Backend::GlobalizeStore.authenticator = proc {
+  require_admin
+}
 
 # migration
 class CreateGlobalizeTranslations < ActiveRecord::Migration

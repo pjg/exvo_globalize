@@ -7,7 +7,7 @@ describe GlobalizeTranslationsController do
     @title = Factory(:title)
   end
 
-  describe "#index JSON" do
+  describe "#index as JSON" do
     before do
       get :index, :format => :json
       @translations = JSON.parse(response.body)
@@ -24,6 +24,27 @@ describe GlobalizeTranslationsController do
     it "returns a JSON with translations" do
       @translations["en"]["title"].should eq(@title.value)
     end
+  end
+
+  describe "#index as HTML" do
+
+    context "without being logged as admin" do
+      before do
+        get :index, :format => :html
+      end
+
+      it { should respond_with(:forbidden) }
+    end
+
+    context "when being logged in as admin" do
+      before do
+        controller.stub!(:require_admin).and_return(true)
+        get :index, :format => :html
+      end
+
+      it { should respond_with(:success) }
+    end
+
   end
 
 end
