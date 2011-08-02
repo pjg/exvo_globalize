@@ -1,5 +1,7 @@
 require "exvo_globalize/version"
-require "exvo_globalize/globalize_store"
+require "exvo_globalize/backend/chain"
+require "exvo_globalize/backend/globalize_store"
+require "exvo_globalize/backend/simple"
 
 # Make it a Rails engine
 module ExvoGlobalize
