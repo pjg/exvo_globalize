@@ -3,12 +3,12 @@ require 'json'
 
 describe GlobalizeTranslationsController do
 
-  let(:title) { Factory(:title) }
+  let(:i18n_title) { Factory(:i18n_title) }
 
   describe "#index as JSON" do
 
     let(:translations) do
-      title # needed so there is some data in the database before a call to get :index
+      i18n_title # needed so there is some data in the database before a call to get :index
       get :index, :format => :json
       JSON.parse(response.body)
     end
@@ -22,7 +22,7 @@ describe GlobalizeTranslationsController do
     end
 
     it "returns a JSON with translations" do
-      title.value.should eq(translations["en"]["title"])
+      i18n_title.value.should eq(translations["en"]["title"])
     end
 
   end

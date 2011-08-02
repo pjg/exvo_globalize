@@ -4,15 +4,15 @@ describe ExvoGlobalize do
 
   I18n.load_path = ['spec/fixtures/locales/en.yml']
 
-  let(:example) { Factory(:example) }
-  let(:title) { Factory(:title) }
+  let(:i18n_example) { Factory(:i18n_example) }
+  let(:i18n_title) { Factory(:i18n_title) }
 
   it "respects the default_locale setting" do
     I18n.default_locale.should eq(:en)
   end
 
   it "provides a valid translation for a given key" do
-    example.value.should eq(I18n.t(:example))
+    i18n_example.value.should eq(I18n.t(:example))
   end
 
   it "falls back to the YAML file if the translation is missing in the GlobalizeStore backend (db)" do
@@ -20,7 +20,7 @@ describe ExvoGlobalize do
   end
 
   it "prioritizes the translations from GlobalizeStore backend (db) over others" do
-    title.value.should eq(I18n.translate(:title))
+    i18n_title.value.should eq(I18n.translate(:title))
   end
 
   it "lists available_translations from the Simple backend (YAML files)" do
@@ -32,9 +32,9 @@ describe ExvoGlobalize do
     old = I18n.translate(:example)
     new = 'New example'
 
-    example.update_attributes(:value => new)
-    example.reload
-    example.value.should eq(new)
+    i18n_example.update_attributes(:value => new)
+    i18n_example.reload
+    i18n_example.value.should eq(new)
 
     I18n.translate(:example).should eq(old)
   end
