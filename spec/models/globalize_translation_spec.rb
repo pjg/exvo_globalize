@@ -1,25 +1,24 @@
 require 'spec_helper'
 
 describe GlobalizeTranslation do
-  before do
-    @title = Factory(:title)
-    @title_pl = Factory(:title_pl)
-  end
+
+  let(:title) { Factory(:title) }
+  let(:title_pl) { Factory(:title_pl) }
 
   it "has a :title key" do
-    @title.key.should eql('title')
+    title.key.should eql('title')
   end
 
   it "returns all translations for all locales" do
-    GlobalizeTranslation.lookup(:title).map(&:value).should =~ [@title, @title_pl].map(&:value)
+    [title, title_pl].map(&:value).should =~ GlobalizeTranslation.lookup(:title).map(&:value)
   end
 
   it "returns a translation for scoped locale" do
-    GlobalizeTranslation.locale('en').lookup(:title).first.value.should eq(@title.value)
+    title.value.should eq(GlobalizeTranslation.locale('en').lookup(:title).first.value)
   end
 
   it "lists available locales" do
-    GlobalizeTranslation.available_locales.should =~ [@title, @title_pl].map(&:locale).map(&:to_sym)
+    [title, title_pl].map(&:locale).map(&:to_sym).should =~ GlobalizeTranslation.available_locales
   end
 
 end

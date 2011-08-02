@@ -3,32 +3,33 @@ require 'json'
 
 describe GlobalizeTranslationsController do
 
-  before do
-    @title = Factory(:title)
-  end
+  let(:title) { Factory(:title) }
 
   describe "#index as JSON" do
-    before do
+
+    let(:translations) do
+      title # needed so there is some data in the database before a call to get :index
       get :index, :format => :json
-      @translations = JSON.parse(response.body)
+      JSON.parse(response.body)
     end
 
     it "returns a non-empty JSON" do
-      @translations.present?.should be_true
+      translations.present?.should be_true
     end
 
     it "returns a JSON with default_locale" do
-      @translations["default_locale"].should eq(I18n.default_locale.to_s)
+      translations["default_locale"].should eq(I18n.default_locale.to_s)
     end
 
     it "returns a JSON with translations" do
-      @translations["en"]["title"].should eq(@title.value)
+      title.value.should eq(translations["en"]["title"])
     end
+
   end
 
   describe "#index as HTML" do
 
-    context "without being logged as admin" do
+    context "without being logged in" do
       before do
         get :index, :format => :html
       end
