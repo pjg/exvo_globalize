@@ -28,14 +28,4 @@ describe ExvoGlobalize do
     simple_backend.available_translations[:en][:title].should eq('YAML Title')
   end
 
-  it "caches translations in memory" do
-    old = I18n.translate(:example)
-    new = 'New example'
-
-    i18n_example.update_attributes(:value => new)
-    i18n_example.reload
-    i18n_example.value.should eq(new)
-
-    I18n.translate(:example).should eq(old)
-  end
 end
