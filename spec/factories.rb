@@ -4,6 +4,12 @@ Factory.define :i18n_example, :class => GlobalizeTranslation do |u|
   u.value 'This is an example'
 end
 
+Factory.define :i18n_nested_example, :class => GlobalizeTranslation do |u|
+  u.locale 'en'
+  u.key  'nested.example'
+  u.value 'This is a nested example'
+end
+
 Factory.define :i18n_title, :class => GlobalizeTranslation do |u|
   u.locale 'en'
   u.key  'title'

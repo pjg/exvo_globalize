@@ -5,6 +5,7 @@ describe ExvoGlobalize do
   I18n.load_path = ['spec/fixtures/locales/en.yml']
 
   let(:i18n_example) { Factory(:i18n_example) }
+  let(:i18n_nested_example) { Factory(:i18n_nested_example) }
   let(:i18n_title) { Factory(:i18n_title) }
 
   it "respects the default_locale setting" do
@@ -13,6 +14,10 @@ describe ExvoGlobalize do
 
   it "provides a valid translation for a given key" do
     i18n_example.value.should eq(I18n.t(:example))
+  end
+
+  it "provides a valid translation for a scoped key" do
+    i18n_nested_example.value.should eq(I18n.t(:example, :scope => [:nested]))
   end
 
   it "falls back to the YAML file if the translation is missing in the GlobalizeStore backend (db)" do
