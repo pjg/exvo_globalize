@@ -20,6 +20,22 @@ describe ExvoGlobalize do
     i18n_nested_example.value.should eq(I18n.t(:example, :scope => [:nested]))
   end
 
+  context "translation storage" do
+    let(:hello_world) { 'Hello world' }
+    let(:hello_earth) { 'Hello Earth' }
+    let(:globalize_store_backend) { I18n.backend.backends.detect { |backend| backend.is_a?(I18n::Backend::GlobalizeStore) } }
+
+    it "stores nested translations in the GlobalizeStore backend" do
+      globalize_store_backend.store_translations(I18n.locale, { :hello => { :world => hello_world} })
+      I18n.translate('hello.world').should eql(hello_world)
+    end
+
+    it "stores flatten translation in the GlobalizeStore backend" do
+      globalize_store_backend.store_flatten_translation(I18n.locale, 'hello.earth', hello_earth)
+      I18n.translate(:earth, :scope => [:hello]).should eql(hello_earth)
+    end
+  end
+
   it "falls back to the YAML file if the translation is missing in the GlobalizeStore backend (db)" do
     I18n.translate('yaml.title').should eq('YAML Title')
   end
