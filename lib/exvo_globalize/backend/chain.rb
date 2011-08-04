@@ -22,6 +22,14 @@ module I18n
         end
 
         alias_method_chain :translate, :fallback
+
+        # pass-through for the `store_flatten_translation()` method to the GlobalizeStore
+        # so that I18n.backend.store_flatten_translation() works
+        def store_flatten_translation(*args)
+          backends.each do |backend|
+            return backend.send(:store_flatten_translation, *args) if backend.respond_to?(:store_flatten_translation)
+          end
+        end
       end
 
       include Implementation
