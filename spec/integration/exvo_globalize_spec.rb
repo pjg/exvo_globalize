@@ -24,14 +24,20 @@ describe ExvoGlobalize do
     let(:hello_world) { 'Hello world' }
     let(:hello_earth) { 'Hello Earth' }
 
-    it "stores a nested translation" do
-      I18n.backend.store_translations(I18n.locale, { :hello => { :world => hello_world} })
+    it "stores a flatten translations hash" do
+      I18n.backend.store_flatten_translations({ :en => { 'hello.world' => hello_world, 'hello.earth' => hello_earth } })
       I18n.translate('hello.world').should eql(hello_world)
+      I18n.translate('hello.earth').should eql(hello_earth)
     end
 
     it "stores a flatten translation" do
       I18n.backend.store_flatten_translation(I18n.locale, 'hello.earth', hello_earth)
       I18n.translate(:earth, :scope => [:hello]).should eql(hello_earth)
+    end
+
+    it "stores a nested translation" do
+      I18n.backend.store_translations(I18n.locale, { :hello => { :world => hello_world } })
+      I18n.translate('hello.world').should eql(hello_world)
     end
   end
 

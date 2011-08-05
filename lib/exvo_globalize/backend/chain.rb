@@ -20,8 +20,20 @@ module I18n
             translate_without_fallback(I18n.default_locale, key, default_options)
           end
         end
-
         alias_method_chain :translate, :fallback
+
+        # stores a whole Hash of flattened translations
+        def store_flatten_translations(translations_hash)
+          return false if translations_hash.blank?
+
+          translations_hash.reject { |key, value| key.to_sym == :default_locale }.each do |locale, translations|
+            next if translations.blank?
+
+            translations.each do |key, value|
+              store_flatten_translation(locale, key, value)
+            end
+          end
+        end
 
         # pass-through for the `store_flatten_translation()` method to the GlobalizeStore
         # so that I18n.backend.store_flatten_translation() works

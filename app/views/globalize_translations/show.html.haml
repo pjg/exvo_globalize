@@ -1,0 +1,7 @@
+= render 'flash_messages'
+
+- if @globalize_app.updated_translations_available?
+  %p Would you like to update the translations from Globalize?
+
+  = form_tag globalize_translations_path, :method => :put do
+    = submit_tag 'Update translations'
