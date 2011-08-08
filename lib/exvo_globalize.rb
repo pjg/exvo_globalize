@@ -8,5 +8,5 @@ require 'httparty'
 
 # Make it a Rails engine
 module ExvoGlobalize
-  require 'exvo_globalize/engine' if defined?(Rails) && Rails::VERSION::MAJOR == 3
+  require 'exvo_globalize/engine' if defined?(Rails)
 end
