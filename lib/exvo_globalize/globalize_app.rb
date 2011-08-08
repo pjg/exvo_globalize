@@ -1,5 +1,7 @@
 class GlobalizeApp
 
+  attr_reader :request_host
+
   def initialize(request_host)
     @request_host = request_host
   end

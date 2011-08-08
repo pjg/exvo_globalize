@@ -3,5 +3,28 @@
   %head
     %title= "Exvo Globalize translations"
     %meta{ :name => "robots", :content => "noindex, nofollow" }
+    :css
+      p.request_host {
+        background: #f9fdf1;
+        border: 1px solid #d2e1b8;
+        font: 12px Verdana, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0.6em 1em;
+        position: absolute;
+        right: 1em;
+        text-align: center;
+        top: 1em;
+      }
+
+      p.request_host span {
+        display: block;
+        font-weight: bold;
+        margin: 0.2em auto;
+      }
+
   %body
+    %p.request_host
+      Request host:
+      %span= @globalize_app.request_host
+
     = yield

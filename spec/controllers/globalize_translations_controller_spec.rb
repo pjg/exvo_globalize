@@ -3,12 +3,13 @@ require 'json'
 
 describe GlobalizeTranslationsController do
 
+  render_views
+  let(:page) { Capybara::Node::Simple.new(@response.body) }
   let(:i18n_title) { Factory(:i18n_title) }
 
   context "JSON" do
 
     describe "GET :show" do
-
       let(:translations) do
         i18n_title # needed so there is some data in the database before a call to get :show
         get :show, :format => :json
@@ -26,7 +27,6 @@ describe GlobalizeTranslationsController do
       it "returns a JSON with translations" do
         i18n_title.value.should eq(translations["en"]["title"])
       end
-
     end
 
   end
@@ -34,10 +34,9 @@ describe GlobalizeTranslationsController do
   context "HTML" do
 
     describe "GET :show" do
-
       context "without being logged in" do
         before do
-          get :show, :format => :html
+          get :show
         end
 
         it { should respond_with(:forbidden) }
@@ -46,26 +45,25 @@ describe GlobalizeTranslationsController do
       context "when being logged in as admin" do
         before do
           controller.stub!(:require_admin).and_return(true)
-          get :show, :format => :html
+          get :show
         end
 
         it { should respond_with(:success) }
-      end
 
+        it "displays Globalize request host" do
+          page.should have_selector('p.request_host')
+        end
+      end
     end
 
     describe "PUT :update" do
-
       let(:intro) { "Introduction" }
       let(:translations) { { :en => { :intro => intro } } }
-
-      render_views
-      let(:page) { Capybara::Node::Simple.new(@response.body) }
 
       before do
         controller.stub!(:require_admin).and_return(true)
         GlobalizeApp.any_instance.stub(:fetch_translations) { translations }
-        put :update, :format => :html
+        put :update
       end
 
       it "updates the translations" do
@@ -79,7 +77,6 @@ describe GlobalizeTranslationsController do
       it "displays a flash notice" do
         page.should have_selector('p.notice')
       end
-
     end
 
   end
