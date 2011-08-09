@@ -4,6 +4,11 @@ This gem lets you make use of the Globalize app (http://globalize.exvo.com/)
 to handle the translation of your Rails app into multiple languages.
 
 
+## Requirements
+
+Rails 3.0+
+
+
 ## Installation
 
 Install the gem
