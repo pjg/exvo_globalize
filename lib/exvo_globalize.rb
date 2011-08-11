@@ -1,5 +1,6 @@
 require "exvo_globalize/version"
 require "exvo_globalize/backend/chain"
+require "exvo_globalize/backend/fallback"
 require "exvo_globalize/backend/globalize_store"
 require "exvo_globalize/backend/simple"
 require 'exvo_globalize/globalize_app'
