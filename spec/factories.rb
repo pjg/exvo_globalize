@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 Factory.define :i18n_example, :class => GlobalizeTranslation do |u|
   u.locale 'en'
   u.key    'example'
