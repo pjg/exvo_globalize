@@ -1,15 +1,15 @@
 # encoding: utf-8
 
-Factory.define :i18n_example, :class => GlobalizeTranslation do |u|
+Factory.define :i18n_header, :class => GlobalizeTranslation do |u|
   u.locale 'en'
-  u.key    'example'
-  u.value  'This is an example'
+  u.key    'header'
+  u.value  'This is a header'
 end
 
-Factory.define :i18n_nested_example, :class => GlobalizeTranslation do |u|
+Factory.define :i18n_nested_header, :class => GlobalizeTranslation do |u|
   u.locale 'en'
-  u.key    'nested.example'
-  u.value  'This is a nested example'
+  u.key    'nested.header'
+  u.value  'This is a nested header'
 end
 
 Factory.define :i18n_title, :class => GlobalizeTranslation do |u|

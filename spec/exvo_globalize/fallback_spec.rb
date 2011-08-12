@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ExvoGlobalize do
 
-  let(:i18n_example) { Factory(:i18n_example) }
+  let(:i18n_header) { Factory(:i18n_header) }
 
   context "locale fallbacks" do
 
@@ -13,7 +13,7 @@ describe ExvoGlobalize do
     end
 
     it "uses translation from the GlobalizeStore backend" do
-      i18n_example.value.should eql(I18n.translate(:example))
+      i18n_header.value.should eql(I18n.translate(:header))
     end
 
     it "uses translation from the Simple backend if it is not found in the GlobalizeTranslation backend" do

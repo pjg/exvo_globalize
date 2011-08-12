@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe ExvoGlobalize do
 
-  let(:i18n_example) { Factory(:i18n_example) }
-  let(:i18n_nested_example) { Factory(:i18n_nested_example) }
+  let(:i18n_header) { Factory(:i18n_header) }
+  let(:i18n_nested_header) { Factory(:i18n_nested_header) }
   let(:i18n_title) { Factory(:i18n_title) }
 
   it "respects the default_locale setting" do
@@ -11,11 +11,11 @@ describe ExvoGlobalize do
   end
 
   it "provides a valid translation for a given key" do
-    i18n_example.value.should eq(I18n.t(:example))
+    i18n_header.value.should eq(I18n.t(:header))
   end
 
   it "provides a valid translation for a scoped key" do
-    i18n_nested_example.value.should eq(I18n.t(:example, :scope => [:nested]))
+    i18n_nested_header.value.should eq(I18n.t(:header, :scope => [:nested]))
   end
 
   context "translation storage" do
