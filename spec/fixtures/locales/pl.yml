@@ -1,0 +1,5 @@
+pl:
+  mail:
+    one: "Masz 1 list"
+    few: "Masz %{count} listy"
+    other: "Masz %{count} listów"

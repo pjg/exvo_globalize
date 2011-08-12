@@ -12,6 +12,7 @@ app.config.secret_token = "aoijg543oi2u88923j4fnvfjt529hg92"
 app.config.session_store :cookie_store, :key => "_exvo_globalize_session"
 app.config.active_support.deprecation = :log
 app.config.i18n.default_locale = :en
+app.config.i18n.locale = :en
 app.initialize!
 
 # application controller

@@ -3,12 +3,14 @@ $:.unshift(File.dirname(__FILE__))
 
 require 'rails'
 require 'exvo_globalize'
-
 require File.join(File.dirname(__FILE__), 'app')
 
 require 'rspec/rails'
 require 'factory_girl_rails'
 require 'shoulda-matchers'
+
+I18n.load_path << "spec/fixtures/locales/en.yml"
+I18n.load_path << "spec/fixtures/locales/pl.yml"
 
 # Requires supporting ruby files with custom matchers and macros, etc.
 # in spec/support/ and its subdirectories.

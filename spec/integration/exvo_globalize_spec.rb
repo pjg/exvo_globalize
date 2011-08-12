@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ExvoGlobalize do
 
-  I18n.load_path = ['spec/fixtures/locales/en.yml']
-
   let(:i18n_example) { Factory(:i18n_example) }
   let(:i18n_nested_example) { Factory(:i18n_nested_example) }
   let(:i18n_title) { Factory(:i18n_title) }
