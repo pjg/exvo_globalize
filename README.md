@@ -49,6 +49,23 @@ I18n::Backend::GlobalizeStore.authenticator = proc {
 `authenticate_user!` and `require_admin!` are just exemplary authorization actions.
 
 
+
+## Getting back your database stored translations
+
+If you wish to extract your database stored translations to a separate YAML/Ruby file, there are two rake task to help you with that:
+
+```bash
+$ bundle exec rake globalize:translations:dump:yaml
+```
+
+and
+
+```bash
+$ bundle exec rake globalize:translations:dump:ruby
+```
+
+
+
 ## Globalize integration
 
 In order to fully integrate this gem with Globalize, after installing it you need to register your application (http://globalize.exvo.com/) and order some translations (Globalize should automatically detect the gem installation and should let you choose the JSON translations option).
