@@ -48,8 +48,7 @@ describe ExvoGlobalize do
   end
 
   it "lists available_translations from the Simple backend (YAML files)" do
-    simple_backend = I18n.backend.backends.detect { |backend| backend.is_a?(I18n::Backend::Simple) }
-    simple_backend.available_translations[:en][:title].should eq('YAML Title')
+    I18n.backend.simple.available_translations[:en][:title].should eq('YAML Title')
   end
 
 end

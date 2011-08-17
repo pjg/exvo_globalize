@@ -30,6 +30,18 @@ module I18n
             return backend.send(:store_flatten_translation, *args) if backend.respond_to?(:store_flatten_translation)
           end
         end
+
+        # convinience methods to quickly access a chosen backend
+
+        # I18n.backend.simple
+        def simple
+          backends.detect { |backend| backend.is_a?(I18n::Backend::Simple) }
+        end
+
+        # I18n.backend.globalize_store
+        def globalize_store
+          backends.detect { |backend| backend.is_a?(I18n::Backend::GlobalizeStore) }
+        end
       end
 
       include Implementation

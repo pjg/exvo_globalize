@@ -17,8 +17,7 @@ describe ExvoGlobalize do
     end
 
     it "uses translation from the Simple backend if it is not found in the GlobalizeTranslation backend" do
-      simple_backend = I18n.backend.backends.detect { |backend| backend.is_a?(I18n::Backend::Simple) }
-      simple_backend.translate(I18n.default_locale, :name).should eql(I18n.translate(:name))
+      I18n.backend.simple.translate(I18n.default_locale, :name).should eql(I18n.translate(:name))
     end
 
     after { I18n.locale = I18n.default_locale }
