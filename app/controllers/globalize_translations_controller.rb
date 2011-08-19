@@ -1,12 +1,13 @@
 class GlobalizeTranslationsController < ApplicationController
 
-  before_filter :globalize_translations_authenticator
-  before_filter :set_globalize_app
+  before_filter :globalize_translations_authenticator, :except => :for_js
+  before_filter :set_globalize_app, :except => :for_js
 
   layout 'exvo_globalize'
 
   respond_to :html, :json
-
+  respond_to :js, :only => :for_js
+  
   def show
     @translations = I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
     respond_with @translations
@@ -29,6 +30,12 @@ class GlobalizeTranslationsController < ApplicationController
     @translations = params[:locale].present? ? { params[:locale].to_sym => hash[params[:locale].to_sym] } : hash
   end
 
+  def for_js
+    get_locale_from(params[:locale])
+    locale = I18n.backend.available_translations.has_key?(@locale) ? @locale : I18n.default_locale
+    @translations = I18n.backend.available_translations[locale]
+  end
+
   def update
     translations = @globalize_app.fetch_translations
 
@@ -47,6 +54,10 @@ class GlobalizeTranslationsController < ApplicationController
 
   private
 
+  def get_locale_from(params)
+    @locale = params.gsub(".js","").to_sym
+  end
+  
   def globalize_translations_authenticator
     # get :show as JSON does not require authentication
     return if params[:action].to_s == 'show' and request.format.json?

@@ -6,6 +6,32 @@ describe GlobalizeTranslationsController do
   render_views
   let(:page) { Capybara::Node::Simple.new(@response.body) }
 
+  context "JS" do
+    describe "GET :for_js" do
+      it "should return locale from params" do
+        @controller.send(:get_locale_from, I18n.default_locale.to_s + ".js").should == I18n.default_locale
+      end
+       
+      it "should assign locale default" do
+        get :for_js, :format => :js, :locale => I18n.default_locale.to_s + ".js"
+        response.content_type.should == Mime::JS
+        assigns(:locale).should eq(I18n.default_locale)
+      end
+
+      it "should assign custom locale" do
+        get :for_js, :format => :js, :locale => "pl.js"
+        assigns(:locale).should eq(:pl)
+      end
+
+
+      it "should assign translations" do
+        I18n.backend.available_translations.stub(:[]).and_return({})
+        get :for_js, :format => :js, :locale => I18n.default_locale.to_s + ".js"
+        assigns(:translations).should be_kind_of(Hash)
+      end      
+    end
+  end
+
   context "JSON" do
 
     describe "GET :show" do

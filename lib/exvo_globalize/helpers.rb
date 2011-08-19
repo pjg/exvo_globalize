@@ -28,5 +28,9 @@ module ExvoGlobalize
       out += " " * indent_level + "</ul>\n"
     end
 
+    def i18n_translations_javascript_include_tag(locale)
+      javascript_include_tag "/globalize/translations/for_js?locale=#{I18n.locale}"
+    end
+
   end
 end
