@@ -5,13 +5,11 @@ describe GlobalizeTranslationsController do
 
   render_views
   let(:page) { Capybara::Node::Simple.new(@response.body) }
-  let(:i18n_title) { Factory(:i18n_title) }
 
   context "JSON" do
 
     describe "GET :show" do
       let(:translations) do
-        i18n_title # needed so there is some data in the database before a call to get :show
         get :show, :format => :json
         JSON.parse(response.body)
       end
@@ -25,7 +23,7 @@ describe GlobalizeTranslationsController do
       end
 
       it "returns a JSON with translations" do
-        i18n_title.value.should eq(translations["en"]["title"])
+        translations["en"]["helpers"]["select"]["prompt"].should eq("Please select")
       end
     end
 

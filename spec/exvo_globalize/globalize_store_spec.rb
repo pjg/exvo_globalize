@@ -51,4 +51,9 @@ describe ExvoGlobalize do
     I18n.backend.simple.available_translations[:en][:title].should eq('YAML Title')
   end
 
+  it "excludes fixtures from app_translations and does so without breaking the I18n.load_path" do
+    I18n.backend.available_app_translations[:en].has_key?(:title).should be_false
+    I18n.backend.available_translations[:en].has_key?(:title).should be_true
+  end
+
 end

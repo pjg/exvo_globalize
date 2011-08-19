@@ -9,7 +9,7 @@ class GlobalizeTranslationsController < ApplicationController
 
   def show
     # returns {"default_locale":"en","pl":{"hello.world":"Witaj \u015bwiecie","hello.earth":"Witaj ziemio"},"en":{"hello.world":"Hello world","hello.earth":"Hello Earth"}}
-    @translations = I18n.backend.available_translations.merge({ :default_locale => I18n.default_locale })
+    @translations = I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
     respond_with @translations
   end
 

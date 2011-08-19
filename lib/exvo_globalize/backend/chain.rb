@@ -10,6 +10,26 @@ module I18n
           backends.map { |backend| backend.available_translations }.reverse.inject(&:merge)
         end
 
+        # Return a hash only with Application translations
+        def available_app_translations
+          # save original load_path
+          load_path = I18n.load_path
+
+          # load only app translations (Simple I18n backend)
+          I18n.load_path = Dir.glob(File.join(Rails.root, 'config/locales', '**', '*.{yml,rb}'))
+          simple.reload!
+          simple.load_translations
+          translations = simple.available_translations
+
+          # restore original translations
+          I18n.load_path = load_path
+          simple.reload!
+          simple.load_translations
+
+          # return app's translations
+          translations
+        end
+
         # stores a whole Hash of flattened translations
         def store_flatten_translations(translations_hash)
           return false if translations_hash.blank?
