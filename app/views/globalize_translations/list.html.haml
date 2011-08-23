@@ -1,0 +1,19 @@
+= form_tag("/globalize/translations/list", :class => "search", :method => :get) do
+  %p
+    Translation Type
+    =select_tag "type", options_for_select([["Yaml", :yaml], ["Database", :db]], :selected => params[:type]), :include_blank => "All"
+
+    Language:
+    =select_tag "locale", options_for_select(@languages, :selected => params[:locale]), :include_blank => "All"
+
+    = submit_tag "search"
+
+- if @translations
+  - @translations.each do |lang, hash|
+    - if hash.is_a?(Hash)
+      %span.language= "Available translations for: #{lang}"
+      %table.available_translations{:cellspacing => 0, :cellpadding => 0}
+        - hash.each do |key, value|
+          %tr
+            %td= key
+            %td= value

@@ -8,9 +8,25 @@ class GlobalizeTranslationsController < ApplicationController
   respond_to :html, :json
 
   def show
-    # returns {"default_locale":"en","pl":{"hello.world":"Witaj \u015bwiecie","hello.earth":"Witaj ziemio"},"en":{"hello.world":"Hello world","hello.earth":"Hello Earth"}}
     @translations = I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
     respond_with @translations
+  end
+
+  def list
+    @languages = I18n.backend.available_locales
+
+    case params[:type]
+    when "yaml"
+      @translations = I18n.backend.available_app_translations
+    when "db"
+      @translations = I18n.backend.globalize_store.available_translations
+    else
+      @translations = I18n.backend.available_translations
+    end
+
+    if params[:locale].present?
+      @translations = @translations.map{|key, value| {key => value} if key.to_s == params[:locale]}.compact.inject(&:deep_merge)
+    end
   end
 
   def update

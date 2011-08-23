@@ -22,7 +22,44 @@
         margin: 0.2em auto;
       }
 
+      form.search {
+        background-color: #DDD;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+
+      span.language {
+        display: block;
+        margin-top: 1em;
+        font: 18px Verdana, Helvetica, Arial, sans-serif;
+        font-weight: bold;
+      }
+
+      table.available_translations {
+        font: 12px Verdana, Helvetica, Arial, sans-serif;
+        background: #f2f6fc;
+        border: 1px solid #b9bbbd;
+        color: #333;
+        width: 100%;
+      }
+
+      table.available_translations td {
+        padding: 0.7em;
+        border-bottom: 1px solid #b9bbbd;
+      }
+
+      table.available_translations tr:hover {
+        color: #000;
+        background-color: #adb2b8;
+      }
+
   %body
+    %p
+      = link_to 'Main page',  globalize_translations_path
+      |
+      = link_to 'Translations list', list_globalize_translations_path
+
     %p.request_host
       Request host:
       %span= @globalize_app.request_host
