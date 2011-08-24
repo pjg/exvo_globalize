@@ -25,9 +25,10 @@ describe GlobalizeTranslationsController do
 
 
       it "should assign translations" do
-        I18n.backend.available_translations.stub(:[]).and_return({})
+        I18n.backend.stub_chain(:available_translations, :[]).and_return({})
+        I18n.backend.stub_chain(:available_translations, :has_key?).and_return(true)
         get :for_js, :format => :js, :locale => I18n.default_locale.to_s + ".js"
-        assigns(:translations).should be_kind_of(Hash)
+        assigns(:translations).should be_a(Hash)
       end      
     end
   end
