@@ -48,6 +48,20 @@ I18n::Backend::GlobalizeStore.authenticator = proc {
 
 `authenticate_user!` and `require_admin!` are just exemplary authorization actions.
 
+### Translations inside javascript code
+
+To make all translation be available in javascript place this helper inside <HEAD> tag:
+
+```ruby
+= i18n_translations_javascript_include_tag(I18n.locale)
+```
+
+Now you can use translations inside javascript:
+
+```js
+t("new")
+=> "new"
+```
 
 
 ## Getting back your database stored translations
