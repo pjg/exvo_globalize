@@ -11,12 +11,10 @@
 #   - dist/**/*.js
 #
 src_files:
-  - public/javascripts/prototype.js
-  - public/javascripts/effects.js
-  - public/javascripts/controls.js
-  - public/javascripts/dragdrop.js
-  - public/javascripts/application.js
-  - public/javascripts/**/*.js
+  - spec/javascripts/lib/jquery.js
+  - spec/javascripts/lib/i18n.js
+  - spec/javascripts/lib/Player.js
+  - spec/javascripts/lib/Song.js
 
 # stylesheets
 #
