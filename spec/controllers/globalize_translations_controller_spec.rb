@@ -56,7 +56,7 @@ describe GlobalizeTranslationsController do
 
     describe "PUT :update" do
       let(:intro) { "Introduction" }
-      let(:translations) { { :en => { :intro => intro } } }
+      let(:translations) { { :en => { :intro => { :title => intro } } } }
 
       before do
         controller.stub!(:require_admin).and_return(true)
@@ -65,7 +65,7 @@ describe GlobalizeTranslationsController do
       end
 
       it "updates the translations" do
-        I18n.t(:intro).should eq(intro)
+        I18n.t(:title, :scope => :intro).should eq(intro)
       end
 
       it "sets a flash notice" do

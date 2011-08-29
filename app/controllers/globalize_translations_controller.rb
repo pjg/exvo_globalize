@@ -14,7 +14,7 @@ class GlobalizeTranslationsController < ApplicationController
   end
 
   def update
-    if I18n.backend.store_flatten_translations(@globalize_app.fetch_translations)
+    if I18n.backend.store_nested_translations(@globalize_app.fetch_translations)
       flash.now[:notice] = 'Translations updated'
     else
       flash.now[:alert] = 'There was a problem while updating translations'

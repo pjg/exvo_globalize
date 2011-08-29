@@ -21,6 +21,7 @@ describe ExvoGlobalize do
   context "translation storage" do
     let(:hello_world) { 'Hello world' }
     let(:hello_earth) { 'Hello Earth' }
+    let(:hello_mars) { 'Hello Mars' }
 
     it "stores a flatten translations hash" do
       I18n.backend.store_flatten_translations({ :en => { 'hello.world' => hello_world, 'hello.earth' => hello_earth } })
@@ -29,8 +30,13 @@ describe ExvoGlobalize do
     end
 
     it "stores a flatten translation" do
-      I18n.backend.store_flatten_translation(I18n.locale, 'hello.earth', hello_earth)
-      I18n.translate(:earth, :scope => [:hello]).should eql(hello_earth)
+      I18n.backend.store_flatten_translation(I18n.locale, 'hello.mars', hello_mars)
+      I18n.translate(:mars, :scope => [:hello]).should eql(hello_mars)
+    end
+
+    it "stores a nested translations hash" do
+      I18n.backend.store_nested_translations({ :en => { :nested => { :hello => hello_world } } })
+      I18n.translate(:hello, :scope => :nested).should eql(hello_world)
     end
 
     it "stores a nested translation" do
@@ -40,7 +46,7 @@ describe ExvoGlobalize do
   end
 
   it "falls back to the YAML file if the translation is missing in the GlobalizeStore backend (db)" do
-    I18n.translate('yaml.title').should eq('YAML Title')
+    I18n.translate('yaml.title').should eq('YAML Nested Title')
   end
 
   it "prioritizes the translations from GlobalizeStore backend (db) over others" do
@@ -48,7 +54,11 @@ describe ExvoGlobalize do
   end
 
   it "lists available_translations from the Simple backend (YAML files)" do
-    I18n.backend.simple.available_translations[:en][:title].should eq('YAML Title')
+    I18n.backend.simple.available_translations[:en][:yaml][:title].should eq('YAML Nested Title')
+  end
+
+  it "lists available app translations" do
+    I18n.backend.available_app_translations[:en][:helpers][:select].has_key?(:prompt).should be_true
   end
 
   it "excludes fixtures from app_translations and does so without breaking the I18n.load_path" do

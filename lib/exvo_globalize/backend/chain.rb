@@ -30,11 +30,22 @@ module I18n
           translations
         end
 
-        # stores a whole Hash of flattened translations
+        # stores a whole Hash of nested translations (like those: { :en => { :session => { :title => 'Title' } } })
+        def store_nested_translations(translations_hash)
+          return false if translations_hash.blank?
+
+          translations_hash.reject { |locale, translations| locale.to_sym == :default_locale }.each do |locale, translations|
+            next if translations.blank?
+
+            store_translations(locale, translations)
+          end
+        end
+
+        # stores a whole Hash of flattened translations (like those: { :en => { 'session.title' => 'Title' } })
         def store_flatten_translations(translations_hash)
           return false if translations_hash.blank?
 
-          translations_hash.reject { |key, value| key.to_sym == :default_locale }.each do |locale, translations|
+          translations_hash.reject { |locale, translations| locale.to_sym == :default_locale }.each do |locale, translations|
             next if translations.blank?
 
             translations.each do |key, value|
