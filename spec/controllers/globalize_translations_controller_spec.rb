@@ -58,11 +58,7 @@ describe GlobalizeTranslationsController do
       let(:intro) { "Introduction" }
       let(:translations) { { :en => { :intro => { :title => intro } } } }
 
-      before do
-        controller.stub!(:require_admin).and_return(true)
-        GlobalizeApp.any_instance.stub(:fetch_translations) { translations }
-        put :update
-      end
+      before { fetch_translations(translations) }
 
       it "updates the translations" do
         I18n.t(:title, :scope => :intro).should eq(intro)
@@ -77,6 +73,29 @@ describe GlobalizeTranslationsController do
       end
     end
 
+    describe "PUT :update with error from Globalize" do
+      let(:message) { "Not found" }
+      let(:translations) { { "errors" => message } }
+
+      before { fetch_translations(translations) }
+
+      it "sets a flash alert" do
+        flash[:alert].should_not be_empty
+      end
+
+      it "displays a flash alert" do
+        page.should have_selector('p.alert')
+      end
+    end
+
+  end
+
+  private
+
+  def fetch_translations(translations_stub)
+    controller.stub!(:require_admin).and_return(true)
+    GlobalizeApp.any_instance.stub(:fetch_translations) { translations_stub }
+    put :update
   end
 
 end

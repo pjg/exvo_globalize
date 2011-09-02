@@ -14,11 +14,18 @@ class GlobalizeTranslationsController < ApplicationController
   end
 
   def update
-    if I18n.backend.store_nested_translations(@globalize_app.fetch_translations)
-      flash.now[:notice] = 'Translations updated'
+    translations = @globalize_app.fetch_translations
+
+    if translations.present? and !translations.has_key?("errors")
+      if I18n.backend.store_nested_translations(translations)
+        flash.now[:notice] = 'Translations updated'
+      else
+        flash.now[:alert] = 'There was a problem while updating translations'
+      end
     else
-      flash.now[:alert] = 'There was a problem while updating translations'
+      flash.now[:alert] = "There was a problem while fetching translations: #{translations["errors"].to_s.downcase}"
     end
+
     render :show
   end
 
