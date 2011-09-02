@@ -2,6 +2,8 @@ class GlobalizeTranslation < ActiveRecord::Base
 
   # based on https://github.com/svenfuchs/i18n-active_record/blob/master/lib/i18n/backend/active_record/translation.rb
 
+  scope :ordered, :order => :key
+
   def self.lookup(keys)
     column_name = connection.quote_column_name('key')
     keys = Array(keys).map! { |key| key.to_s }

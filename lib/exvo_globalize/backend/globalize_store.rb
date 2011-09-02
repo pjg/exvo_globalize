@@ -16,7 +16,7 @@ module I18n
         # returns a Hash with all translations (translation keys are dot separated strings, not hashes):
         #   {:en=>{"hello.world"=>"Hello world", "hello.earth"=>"Hello Earth"}, :pl=>{"hello.world"=>"Witaj świecie", "hello.earth"=>"Witaj ziemio"}}
         def available_translations(locale = nil)
-          (locale.present? ? GlobalizeTranslation.where(:locale => locale) : GlobalizeTranslation.all).
+          (locale.present? ? GlobalizeTranslation.where(:locale => locale).ordered : GlobalizeTranslation.ordered).
             inject({}) do |result, element|
               result[element.locale.to_sym] ||= {}
               result[element.locale.to_sym][element.key] = element.value
