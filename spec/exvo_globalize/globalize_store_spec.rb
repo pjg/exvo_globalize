@@ -57,6 +57,10 @@ describe ExvoGlobalize do
     I18n.backend.simple.available_translations[:en][:yaml][:title].should eq('YAML Nested Title')
   end
 
+  it "lists available translations from the GlobalizeStore backend" do
+    i18n_nested_header.value.should eq(I18n.backend.globalize_store.available_translations["en"]["nested"]["header"])
+  end
+
   it "lists available app translations" do
     I18n.backend.available_app_translations[:en][:helpers][:select].has_key?(:prompt).should be_true
   end

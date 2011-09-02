@@ -13,15 +13,14 @@ module I18n
           GlobalizeTranslation.available_locales
         end
 
-        # returns a Hash with all translations (translation keys are dot separated strings, not hashes):
-        #   {:en=>{"hello.world"=>"Hello world", "hello.earth"=>"Hello Earth"}, :pl=>{"hello.world"=>"Witaj świecie", "hello.earth"=>"Witaj ziemio"}}
+        # returns a nested Hash with all translations
+        # { :en => { :hello => { :world => "Hello world", :earth => "Hello Earth" } } } ...
         def available_translations(locale = nil)
-          (locale.present? ? GlobalizeTranslation.where(:locale => locale).ordered : GlobalizeTranslation.ordered).
-            inject({}) do |result, element|
-              result[element.locale.to_sym] ||= {}
-              result[element.locale.to_sym][element.key] = element.value
-              result
-            end
+          translations = locale.present? ? GlobalizeTranslation.where(:locale => locale).ordered : GlobalizeTranslation.ordered
+
+          translations.inject({}) do |result, element|
+            result.deep_merge( { element["locale"] => nest_translations(element["key"] => element["value"]) } )
+          end
         end
 
         def store_translations(locale, data, options = {})
