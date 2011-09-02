@@ -16,7 +16,7 @@ module I18n
         # returns a Hash with all translations (translation keys are dot separated strings, not hashes):
         #   {:en=>{"hello.world"=>"Hello world", "hello.earth"=>"Hello Earth"}, :pl=>{"hello.world"=>"Witaj świecie", "hello.earth"=>"Witaj ziemio"}}
         def available_translations(locale = nil)
-          (locale.present? ? GlobalizeTranslation.locale(locale.to_s) : GlobalizeTranslation.all).
+          (locale.present? ? GlobalizeTranslation.where(:locale => locale) : GlobalizeTranslation.all).
             inject({}) do |result, element|
               result[element.locale.to_sym] ||= {}
               result[element.locale.to_sym][element.key] = element.value
@@ -32,7 +32,7 @@ module I18n
         end
 
         def store_flatten_translation(locale, key, value)
-          GlobalizeTranslation.locale(locale).lookup(expand_keys(key)).delete_all
+          GlobalizeTranslation.where(:locale => locale).lookup(expand_keys(key)).delete_all
           GlobalizeTranslation.create(:locale => locale.to_s, :key => key.to_s, :value => value)
         end
 
@@ -40,7 +40,7 @@ module I18n
 
         def lookup(locale, key, scope = [], options = {})
           key = normalize_flat_keys(locale, key, scope, options[:separator])
-          result = GlobalizeTranslation.locale(locale).lookup(key).all
+          result = GlobalizeTranslation.where(:locale => locale).lookup(key).all
 
           if result.empty?
             nil

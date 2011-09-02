@@ -14,7 +14,7 @@ describe GlobalizeTranslation do
   end
 
   it "returns a translation for scoped locale" do
-    i18n_title.value.should eq(GlobalizeTranslation.locale('en').lookup(:title).first.value)
+    i18n_title.value.should eq(GlobalizeTranslation.where(:locale => :en).lookup(:title).first.value)
   end
 
   it "lists available locales" do
