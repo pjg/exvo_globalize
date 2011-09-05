@@ -20,5 +20,11 @@ module ExvoGlobalize
       # GlobalizeStore first (database backed), YAML files second (Simple backend, the default one)
       I18n.backend = I18n::Backend::Chain.new(I18n::Backend::GlobalizeStore.new, I18n.backend)
     end
+
+    initializer "exvo_globalize.configure_helpers" do |app|
+      ActiveSupport.on_load(:action_view) do
+        ActionView::Base.send :include, ExvoGlobalize::Helpers
+      end
+    end
   end
 end

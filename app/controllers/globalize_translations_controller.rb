@@ -13,7 +13,7 @@ class GlobalizeTranslationsController < ApplicationController
   end
 
   def list
-    @languages = I18n.backend.available_locales
+    @languages = I18n.backend.available_locales.sort_by(&:to_s)
 
     case params[:type]
     when "yaml"

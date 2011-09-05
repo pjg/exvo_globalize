@@ -88,6 +88,18 @@ describe GlobalizeTranslationsController do
       end
     end
 
+    describe "GET :list" do
+      before do
+        @title = Factory(:i18n_title)
+        controller.stub!(:require_admin).and_return(true)
+        get :list, { :type => 'db', :locale => 'en' }
+      end
+
+      it "displays available translations" do
+        page.should have_selector('li span', :text => @title.value)
+      end
+    end
+
   end
 
   private
