@@ -4,6 +4,10 @@
     %title= "Exvo Globalize translations"
     %meta{ :name => "robots", :content => "noindex, nofollow" }
     :css
+      html, body, fieldset, form, input, select, textarea {
+        font: 13px/130% "Lucida Grande", Tahoma, Verdana, Helvetica, Arial, sans-serif;
+      }
+
       p.request_host {
         background: #f9fdf1;
         border: 1px solid #d2e1b8;
@@ -22,36 +26,35 @@
         margin: 0.2em auto;
       }
 
-      form.search {
-        background-color: #DDD;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding: 10px;
+      form p {
+        background: #f9fdf1;
+        border: 1px solid #d2e1b8;
+        margin: 1em 0;
+        padding: 1em 1.2em;
+        width: 450px;
       }
 
-      span.language {
-        display: block;
-        margin-top: 1em;
-        font: 18px Verdana, Helvetica, Arial, sans-serif;
-        font-weight: bold;
+      select {
+        margin-right: 12px;
       }
 
-      table.available_translations {
-        font: 12px Verdana, Helvetica, Arial, sans-serif;
-        background: #f2f6fc;
-        border: 1px solid #b9bbbd;
-        color: #333;
-        width: 100%;
+      ul {
+        margin-bottom: 1em;
+        padding-left: 1em;
       }
 
-      table.available_translations td {
-        padding: 0.7em;
-        border-bottom: 1px solid #b9bbbd;
+      li {
+        color: #eee;
+        list-style: disc;
       }
 
-      table.available_translations tr:hover {
-        color: #000;
-        background-color: #adb2b8;
+      li strong {
+        color: #509e43;
+        margin-right: 0.2em;
+      }
+
+      li span {
+        color: black;
       }
 
   %body
