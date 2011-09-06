@@ -7,7 +7,7 @@ module I18n
         # returning a combined hash with translations from all chained backends
         def available_translations
           # reverse, so that the translations from the first backend (GlobalizeStore) overwrite/overshadow others
-          @available_translations ||= backends.map { |backend| backend.available_translations }.reverse.inject(&:merge)
+          @available_translations ||= backends.map { |backend| backend.available_translations }.reverse.inject(&:deep_merge)
         end
 
         # Return a hash only with Application translations

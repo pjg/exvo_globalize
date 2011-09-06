@@ -6,6 +6,9 @@ describe ExvoGlobalize do
   let(:i18n_nested_header) { Factory(:i18n_nested_header) }
   let(:i18n_title) { Factory(:i18n_title) }
 
+  # invalidate #available_translations cache before each run
+  before { I18n.backend.instance_variable_set(:@available_translations, nil) }
+
   it "respects the default_locale setting" do
     I18n.default_locale.should eq(:en)
   end
@@ -63,6 +66,14 @@ describe ExvoGlobalize do
 
   it "lists available app translations" do
     I18n.backend.available_app_translations[:en][:helpers][:select].has_key?(:prompt).should be_true
+  end
+
+  it "lists all available translations" do
+    I18n.backend.available_translations[:en][:yaml][:title].should eql('YAML Nested Title')
+  end
+
+  it "lists all available translations prioritizing the GlobalizeStore backend" do
+    i18n_title.value.should eql(I18n.backend.available_translations[:en][:title])
   end
 
   it "excludes fixtures from app_translations and does so without breaking the I18n.load_path" do
