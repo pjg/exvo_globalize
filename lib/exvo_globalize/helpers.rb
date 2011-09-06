@@ -16,6 +16,10 @@ module ExvoGlobalize
 
         if value.is_a?(Hash)
           out += "\n" + HashToHTML(value, :indent_level => indent_level + 2) + " " * (indent_level + 2) + "</li>\n"
+        elsif value.is_a?(Array)
+          out += " <span>[ #{value.join(', ')} ]</span></li>\n"
+        elsif value.is_a?(Proc)
+          out += " <span>" + CGI::escapeHTML(value.to_s) + "</span></li>\n"
         else
           out += " <span>#{value}</span></li>\n"
         end
