@@ -92,11 +92,21 @@ describe GlobalizeTranslationsController do
       before do
         @title = Factory(:i18n_title)
         controller.stub!(:require_admin).and_return(true)
-        get :list, { :type => 'db', :locale => 'en' }
+
+        # invalidate #available_translations cache before each run
+        I18n.backend.instance_variable_set(:@available_translations, nil)
       end
 
-      it "displays available translations" do
+      it "displays all available translations" do
+        get :list
         page.should have_selector('li span', :text => @title.value)
+        page.should have_selector('li span', :text => 'YAML Nested Title')
+      end
+
+      it "displays available translations in the GlobalizeStore backend" do
+        get :list, { :type => 'db', :locale => 'en' }
+        page.should have_selector('li span', :text => @title.value)
+        page.should_not have_selector('li span', :text => 'YAML Nested Title')
       end
     end
 

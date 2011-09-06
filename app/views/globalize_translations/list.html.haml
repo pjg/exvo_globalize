@@ -1,7 +1,7 @@
 = form_tag list_globalize_translations_path, :class => "search", :method => :get do
   %p
-    Translation type:
-    = select_tag "type", options_for_select([ ["Database", :db], ["YAML", :yaml] ], :selected => params[:type]), :include_blank => "All"
+    I18n backend:
+    = select_tag "type", options_for_select([ ["Globalize store (database)", "db"], ["YAML (application)", "yaml-app"], ["YAML (application and gems)", "yaml"] ], :selected => params[:type]), :include_blank => "All"
 
     Language:
     = select_tag "locale", options_for_select(@languages, :selected => params[:locale]), :include_blank => "All"

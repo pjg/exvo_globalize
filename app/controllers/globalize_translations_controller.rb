@@ -15,18 +15,18 @@ class GlobalizeTranslationsController < ApplicationController
   def list
     @languages = I18n.backend.available_locales.sort_by(&:to_s)
 
-    case params[:type]
-    when "yaml"
-      @translations = I18n.backend.available_app_translations
-    when "db"
-      @translations = I18n.backend.globalize_store.available_translations
-    else
-      @translations = I18n.backend.available_translations
-    end
+    hash = case params[:type]
+      when "yaml-app"
+        I18n.backend.available_app_translations
+      when "yaml"
+        I18n.backend.simple.available_translations
+      when "db"
+        I18n.backend.globalize_store.available_translations
+      else
+        I18n.backend.available_translations
+      end
 
-    if params[:locale].present?
-      @translations = @translations.map{|key, value| {key => value} if key.to_s == params[:locale]}.compact.inject(&:deep_merge)
-    end
+    @translations = params[:locale].present? ? { params[:locale].to_sym => hash[params[:locale].to_sym] } : hash
   end
 
   def update
