@@ -58,7 +58,7 @@ describe ExvoGlobalize do
   end
 
   it "lists available translations from the GlobalizeStore backend" do
-    i18n_nested_header.value.should eq(I18n.backend.globalize_store.available_translations["en"]["nested"]["header"])
+    i18n_nested_header.value.should eq(I18n.backend.globalize_store.available_translations[:en][:nested][:header])
   end
 
   it "lists available app translations" do

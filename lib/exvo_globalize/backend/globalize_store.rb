@@ -19,7 +19,7 @@ module I18n
           translations = locale.present? ? GlobalizeTranslation.where(:locale => locale).ordered : GlobalizeTranslation.ordered
 
           translations.inject({}) do |result, element|
-            result.deep_merge( { element["locale"] => nest_translations(element["key"] => element["value"]) } )
+            result.deep_merge( { element["locale"].to_sym => nest_translations(element["key"] => element["value"]) } )
           end
         end
 
