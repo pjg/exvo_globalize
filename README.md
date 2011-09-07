@@ -32,7 +32,7 @@ $ bundle
 and generate the database migration
 
 ```bash
-$ rails generate exvo_globalize
+$ rails generate exvo_globalize:install
 ```
 
 
