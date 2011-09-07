@@ -18,13 +18,13 @@ module I18n
           # load only app translations (Simple I18n backend)
           I18n.load_path = Dir.glob(File.join(Rails.root, 'config/locales', '**', '*.{yml,rb}'))
           simple.reload!
-          simple.load_translations
+          simple.send(:init_translations)
           translations = simple.available_translations
 
           # restore original translations
           I18n.load_path = load_path
           simple.reload!
-          simple.load_translations
+          simple.send(:init_translations)
 
           # return app's translations
           translations
