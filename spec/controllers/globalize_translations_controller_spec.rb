@@ -7,30 +7,23 @@ describe GlobalizeTranslationsController do
   let(:page) { Capybara::Node::Simple.new(@response.body) }
 
   context "JS" do
-    describe "GET :for_js" do
-      it "should return locale from params" do
-        @controller.send(:get_locale_from, I18n.default_locale.to_s + ".js").should == I18n.default_locale
-      end
-       
-      it "should assign locale default" do
-        get :for_js, :format => :js, :locale => I18n.default_locale.to_s + ".js"
-        response.content_type.should == Mime::JS
-        assigns(:locale).should eq(I18n.default_locale)
+
+    describe "GET :show" do
+      before do
+        get :show, :format => :js, :id => 'en'
       end
 
-      it "should assign custom locale" do
-        get :for_js, :format => :js, :locale => "pl.js"
-        assigns(:locale).should eq(:pl)
-      end
+      specify { response.content_type.should eq(Mime::JS) }
 
-
-      it "should assign translations" do
-        I18n.backend.stub_chain(:available_translations, :[]).and_return({})
-        I18n.backend.stub_chain(:available_translations, :has_key?).and_return(true)
-        get :for_js, :format => :js, :locale => I18n.default_locale.to_s + ".js"
+      it "returns a hash" do
         assigns(:translations).should be_a(Hash)
-      end      
+      end
+
+      it "returns a hash with translations" do
+        assigns(:translations)[:name].should eq("YAML Name")
+      end
     end
+
   end
 
   context "JSON" do

@@ -28,8 +28,9 @@ module ExvoGlobalize
       out += " " * indent_level + "</ul>\n"
     end
 
+    # Outputs the javascript include tag with translations in the selected language (locale param) in the js format
     def i18n_translations_javascript_include_tag(locale)
-      javascript_include_tag "/globalize/translations/for_js?locale=#{I18n.locale}"
+      javascript_include_tag("/globalize/translations/js/#{locale}.js")
     end
 
   end

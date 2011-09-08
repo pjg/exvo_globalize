@@ -1,12 +1,4 @@
-var I18n = I18n || {};
-I18n.locale = I18n.locale || '<%= @locale %>';
-I18n.translations = I18n.translations || <%= ActiveSupport::JSON.encode(@translations).html_safe %>;
-
-var t = (function(key, options) {
-  return search_translation.t(key, options)
-})
-
-var search_translation = (function() {
+var I18n = (function() {
     // Replace {{foo}} with obj.foo
     function interpolate(string, object) {
         return string.replace(/\{\{([^}]+)\}\}/g, function() {
@@ -92,3 +84,7 @@ var search_translation = (function() {
         t: translate
     };
 })();
+
+var t = (function(key, options) {
+  return I18n.t(key, options);
+});

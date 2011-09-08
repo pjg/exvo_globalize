@@ -1,15 +1,20 @@
 class GlobalizeTranslationsController < ApplicationController
 
-  before_filter :globalize_translations_authenticator, :except => :for_js
-  before_filter :set_globalize_app, :except => :for_js
+  before_filter :globalize_translations_authenticator
+  before_filter :set_globalize_app
 
   layout 'exvo_globalize'
 
-  respond_to :html, :json
-  respond_to :js, :only => :for_js
+  respond_to :html, :json, :js
   
   def show
-    @translations = I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
+    @translations = if params[:id].present?
+        hash = I18n.backend.available_translations
+        hash.has_key?(params[:id].to_sym) ? hash[params[:id].to_sym] : {}
+      else
+        I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
+      end
+
     respond_with @translations
   end
 
@@ -30,12 +35,6 @@ class GlobalizeTranslationsController < ApplicationController
     @translations = params[:locale].present? ? { params[:locale].to_sym => hash[params[:locale].to_sym] } : hash
   end
 
-  def for_js
-    get_locale_from(params[:locale])
-    locale = I18n.backend.available_translations.has_key?(@locale) ? @locale : I18n.default_locale
-    @translations = I18n.backend.available_translations[locale]
-  end
-
   def update
     translations = @globalize_app.fetch_translations
 
@@ -53,14 +52,10 @@ class GlobalizeTranslationsController < ApplicationController
   end
 
   private
-
-  def get_locale_from(params)
-    @locale = params.gsub(".js","").to_sym
-  end
   
   def globalize_translations_authenticator
-    # get :show as JSON does not require authentication
-    return if params[:action].to_s == 'show' and request.format.json?
+    # get :show as JSON or JS does not require authentication
+    return if params[:action].to_s == 'show' and (request.format.json? or request.format.js?)
 
     # call custom authenticator method if available
     if I18n::Backend::GlobalizeStore.authenticator && I18n::Backend::GlobalizeStore.authenticator.respond_to?(:call)

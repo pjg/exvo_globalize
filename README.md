@@ -4,9 +4,11 @@ This gem lets you make use of the Globalize app (http://globalize.exvo.com/)
 to handle the translation of your Rails app into multiple languages.
 
 
+
 ## Requirements
 
 Rails 3.0+
+
 
 
 ## Installation
@@ -29,14 +31,16 @@ bundle
 $ bundle
 ```
 
-and generate the database migration
+finally generate the database migration and the javascript library:
 
 ```bash
 $ rails generate exvo_globalize:install
 ```
 
+If you don’t plan on using I18n in javascript you can just delete the generated `public/javascripts/exvo_globalize_i18n.js` file.
 
-It is advised to have your `/globalize/` actions behind an authorization barrier (besides `/globalize/translations.json`, which is by default publicly accessible).
+
+It is advised to have your `/globalize/` actions behind an authorization barrier (besides `/globalize/translations.json` and `/globalize/translations/js/*.js`, which are by default publicly accessible).
 Create a `config/initializers/exvo_globalize.rb` file with similar contents:
 
 ```ruby
@@ -48,20 +52,27 @@ I18n::Backend::GlobalizeStore.authenticator = proc {
 
 `authenticate_user!` and `require_admin!` are just exemplary authorization actions.
 
-### Translations inside javascript code
 
-To make all translation be available in javascript place this helper inside <HEAD> tag:
+
+### Javascript support
+
+Basic support for I18n in the javascript is included. In order for it to work you need to include two javascript files in your application’s layout (the order is important):
 
 ```ruby
+= javascript_include_tag 'exvo_globalize_i18n'
 = i18n_translations_javascript_include_tag(I18n.locale)
 ```
 
-Now you can use translations inside javascript:
+
+Now you can use translations inside your javascript:
 
 ```js
 t("new")
-=> "new"
+=> "New"
 ```
+
+The above, of course, expects you to have the `:new` key for the current `I18n.locale` in one of your `config/locales/*.yml` files.
+
 
 
 ## Getting back your database stored translations

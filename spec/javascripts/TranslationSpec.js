@@ -1,11 +1,7 @@
 describe("Translation", function() {
-  
-  it("should have text", function() {
-    loadFixtures("translations.html")
-    expect($(".translations")).toHaveText("test")
+
+  it("should translate the phrase using the t() function", function() {
+    expect(t("new")).toEqual("New")
   })
-  
-  it("should have t function working", function() {
-    expect(t("new")).toEqual("new")  
-  })
+
 })
