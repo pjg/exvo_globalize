@@ -24,6 +24,6 @@ RSpec.configure do |config|
     CreateGlobalizeTranslations.up unless ActiveRecord::Base.connection.table_exists? 'globalize_translations'
   end
 
-  # run each spec within a transactions
+  # run each spec within a transaction
   config.use_transactional_fixtures = true
 end

@@ -114,4 +114,29 @@ And pressing `Update translations`.
 
 
 
+## Running the tests
+
+Running tests via `Guard` is the recommended way:
+
+```bash
+$ bundle exec guard
+```
+
+But tests can be run separately as well:
+
+```bash
+$ bundle exec rspec spec
+```
+
+and
+
+```bash
+$ jasmine-headless-webkit -c
+```
+
+There is a great guide for setting up `jasmine-headless-webkit` in your OS if you have problems with it:
+http://johnbintz.github.com/jasmine-headless-webkit/
+
+
+
 Copyright © 2011 Exvo.com Development BV, released under the MIT license

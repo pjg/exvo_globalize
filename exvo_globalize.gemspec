@@ -25,8 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'awesome_print', ['>= 0.3.2']
   s.add_dependency 'ya2yaml', ['>= 0.30']
   s.add_dependency 'httparty', ['>= 0.6.1']
-  s.add_development_dependency 'guard', ['>= 0.5.0']
-  s.add_development_dependency 'guard-rspec', ['>= 0.4.0']
   s.add_development_dependency 'sqlite3', ['>= 1.3']
   s.add_development_dependency 'rspec', ['>= 2.6']
   s.add_development_dependency 'rspec-rails', ['>= 2.6']
@@ -34,5 +32,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'shoulda-matchers', ['>= 1.0.0.beta3']
   s.add_development_dependency 'capybara', ['>= 1.0.0']
   s.add_development_dependency 'json', ['>= 1.5.1']
-  s.add_development_dependency 'jasmine'
+  s.add_development_dependency 'jasmine-headless-webkit'
+  s.add_development_dependency 'therubyracer'
+  s.add_development_dependency 'guard', ['>= 0.5.0']
+  s.add_development_dependency 'guard-rspec', ['>= 0.4.0']
+  s.add_development_dependency 'guard-jasmine-headless-webkit'
 end
