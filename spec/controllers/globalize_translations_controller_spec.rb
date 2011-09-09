@@ -20,7 +20,7 @@ describe GlobalizeTranslationsController do
       end
 
       it "returns a hash with translations" do
-        assigns(:translations)[:name].should eq("YAML Name")
+        assigns(:translations)[:en][:name].should eq("YAML Name")
       end
     end
 

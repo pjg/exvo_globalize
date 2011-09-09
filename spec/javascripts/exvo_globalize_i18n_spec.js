@@ -28,4 +28,8 @@ describe("Basic translation functionality", function() {
     expect(I18n.t("heading", {scope: ["page", "intro"]})).toEqual("Heading")
   })
 
+  it("supports interpolation during translation", function() {
+    expect(I18n.t("hello", {name: "John"})).toEqual("Hello John!")
+  })
+
 })

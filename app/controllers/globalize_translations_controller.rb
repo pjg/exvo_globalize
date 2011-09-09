@@ -6,11 +6,12 @@ class GlobalizeTranslationsController < ApplicationController
   layout 'exvo_globalize'
 
   respond_to :html, :json, :js
-  
+
   def show
     @translations = if params[:id].present?
         hash = I18n.backend.available_translations
-        hash.has_key?(params[:id].to_sym) ? hash[params[:id].to_sym] : {}
+        translations = hash.has_key?(params[:id].to_sym) ? hash[params[:id].to_sym] : {}
+        { params[:id].to_sym => translations }
       else
         I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
       end
@@ -52,7 +53,7 @@ class GlobalizeTranslationsController < ApplicationController
   end
 
   private
-  
+
   def globalize_translations_authenticator
     # get :show as JSON or JS does not require authentication
     return if params[:action].to_s == 'show' and (request.format.json? or request.format.js?)

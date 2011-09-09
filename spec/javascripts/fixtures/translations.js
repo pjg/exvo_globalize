@@ -1,14 +1,18 @@
 I18n.locale = 'en'
 
 I18n.translations = {
-  "new": "New",
+  "en": {
 
-  "page": {
-    "footer": "Footer",
-    "title": "Title",
+    "hello": "Hello %{name}!",
+    "new": "New",
 
-    "intro": {
-      "heading": "Heading"
+    "page": {
+      "footer": "Footer",
+      "title": "Title",
+
+      "intro": {
+        "heading": "Heading"
+      }
     }
   }
 }
