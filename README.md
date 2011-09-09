@@ -139,4 +139,12 @@ http://johnbintz.github.com/jasmine-headless-webkit/
 
 
 
+## Copyrights
+
+exvo_globalize is based on the following projects:
+https://github.com/svenfuchs/i18n
+https://github.com/svenfuchs/rails-i18n/
+https://github.com/toretore/babilu
+
+
 Copyright © 2011 Exvo.com Development BV, released under the MIT license
