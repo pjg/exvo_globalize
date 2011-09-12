@@ -4,13 +4,24 @@ module I18n
       module Implementation
 
         # Extend the Chain backend with a custom `available_translations` method
-        # returning a combined hash with translations from all chained backends
+        # returning a combined Hash with translations from all chained backends
         def available_translations
           # reverse, so that the translations from the first backend (GlobalizeStore) overwrite/overshadow others
           @available_translations ||= backends.map { |backend| backend.available_translations }.reverse.inject(&:deep_merge)
         end
 
-        # Return a hash only with Application translations
+        # Returns a Hash of translations for the specified locale merged with translations for the default_locale
+        def available_translations_scoped_by_locale_with_default(locale)
+          default_locale_translations = { I18n.default_locale => available_translations.fetch(I18n.default_locale) { {} } }
+
+          if locale != I18n.default_locale
+            default_locale_translations.deep_merge({ locale => available_translations.fetch(locale) { {} } })
+          else
+            default_locale_translations
+          end
+        end
+
+        # Return a Hash only with Application translations
         def available_app_translations
           # save original load_path
           load_path = I18n.load_path

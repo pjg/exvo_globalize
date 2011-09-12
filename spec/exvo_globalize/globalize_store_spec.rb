@@ -81,4 +81,10 @@ describe ExvoGlobalize do
     I18n.backend.available_translations[:en].has_key?(:title).should be_true
   end
 
+  it "lists all translations for a given locale including translations for the default locale" do
+    translations = I18n.backend.available_translations_scoped_by_locale_with_default(:pl)
+    translations[:en].has_key?(:title).should be_true
+    translations[:pl].has_key?(:mail).should be_true
+  end
+
 end

@@ -38,7 +38,11 @@
       opts = opts || {};
       opts.defaultValue = opts.defaultValue || null;
       key = keyToArray(opts.scope).concat(keyToArray(key));
-      var value = this.lookup(key, opts.defaultValue);
+      var value = this.lookup(locale(), key, opts.defaultValue);
+
+      // fall back to I18n.default_locale for missing translations
+      if (value == null && I18n.locale != I18n.default_locale) value = this.lookup(I18n.default_locale, key, opts.defaultLocale);
+
       if (typeof value != "string" && value) value = this.pluralize(value, opts.count);
       if (typeof value == "string") value = interpolate(value, opts);
       return value;
@@ -53,8 +57,8 @@
   // parameter is an array of strings used as defaults if the key can not be
   // found. If a key starts with ":" it is used as a key for lookup.
   // This method does not perform pluralization or interpolation.
-  I18n.lookup = function(keys, defaults) {
-    var i = 0, value = this.translations[locale()];
+  I18n.lookup = function(locale, keys, defaults) {
+    var i = 0, value = this.translations[locale];
     defaults = typeof defaults == "string" ? [defaults] : (defaults || []);
     while (keys[i]) {
       value = value && value[keys[i]];
@@ -66,7 +70,7 @@
       if (defaults.length == 0) {
         return null;
       } else if (defaults[0].substr(0,1) == ':') {
-        return this.lookup(keys.slice(0,keys.length-1).concat(keyToArray(defaults[0].substr(1))), defaults.slice(1));
+        return this.lookup(locale, keys.slice(0, keys.length - 1).concat(keyToArray(defaults[0].substr(1))), defaults.slice(1));
       } else {
         return defaults[0];
       }

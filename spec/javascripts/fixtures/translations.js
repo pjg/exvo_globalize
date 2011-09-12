@@ -1,4 +1,5 @@
 I18n.locale = 'en'
+I18n.default_locale = 'en'
 
 I18n.translations = {
   "en": {
@@ -14,5 +15,9 @@ I18n.translations = {
         "heading": "Heading"
       }
     }
+  },
+
+  "pl": {
+    "new": "Nowy"
   }
 }

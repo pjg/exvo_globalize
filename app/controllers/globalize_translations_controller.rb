@@ -9,9 +9,7 @@ class GlobalizeTranslationsController < ApplicationController
 
   def show
     @translations = if params[:id].present?
-        hash = I18n.backend.available_translations
-        translations = hash.has_key?(params[:id].to_sym) ? hash[params[:id].to_sym] : {}
-        { params[:id].to_sym => translations }
+        I18n.backend.available_translations_scoped_by_locale_with_default(params[:id].to_sym)
       else
         I18n.backend.available_app_translations.merge({ :default_locale => I18n.default_locale })
       end
