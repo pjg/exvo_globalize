@@ -1,3 +1,7 @@
+beforeEach(function () {
+  I18n.locale = "en"
+})
+
 describe("Basic translation functionality", function() {
 
   it("translates the phrase", function() {
@@ -7,7 +11,6 @@ describe("Basic translation functionality", function() {
   it("translates the phrase for the 'pl' locale", function() {
     I18n.locale = "pl"
     expect(I18n.translate("new")).toEqual("Nowy")
-    I18n.locale = "en"
   })
 
   it("translates the phrase using I18n.t()", function() {
@@ -69,7 +72,6 @@ describe("Locale fallback", function() {
   it("falls back to I18n.default_locale when there is no translation available for the requested locale", function() {
     I18n.locale = "pl"
     expect(I18n.t("title", {scope: "page"})).toEqual("Title")
-    I18n.locale = "en"
   })
 
 })
