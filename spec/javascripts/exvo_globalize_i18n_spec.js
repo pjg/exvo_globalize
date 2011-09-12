@@ -18,8 +18,8 @@ describe("Basic translation functionality", function() {
     expect(t("new")).toEqual("New")
   })
 
-  it("returns null when translation is not found", function() {
-    expect(I18n.t("non-existing-key")).toBeNull()
+  it("returns missing translation message when translation is not found", function() {
+    expect(I18n.t("missing")).toMatch(/missing translation/)
   })
 
   it("translates the phrase using scoped key with dots as separators", function() {

@@ -45,6 +45,7 @@
 
       if (typeof value != "string" && value) value = this.pluralize(value, opts.count);
       if (typeof value == "string") value = interpolate(value, opts);
+      if (value == null) value = this.missingTranslation(key)
       return value;
     }
   };
@@ -80,6 +81,15 @@
   I18n.pluralize = function(value, count) {
     if (typeof count != 'number') return value;
     return count == 1 ? value.one : value.other;
+  };
+
+  // Returns '[missing translation: "en.missing"]' when translation is not found
+  I18n.missingTranslation = function(key) {
+    var message = '[missing translation: "' + locale();
+    for (var i in key) {
+      message += "." + key[i];
+    }
+    return message += '"]';
   };
 
 })();
