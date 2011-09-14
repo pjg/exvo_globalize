@@ -1,7 +1,26 @@
 # Exvo Globalize
 
-This gem lets you make use of the Globalize app (http://globalize.exvo.com/)
-to handle the translation of your Rails app into multiple languages.
+Rails gem providing universal I18n support for your application. Supports I18n of both your normal Ruby/Rails app (based on the i18n gem) as well as javascript using a custom i18n library.
+
+Ruby/Rails features:
+
+* additional database backed I18n backend to store the translations
+* in-memory caching of database backed translations
+* pluralization rules for 108 languages (`config/locales/plurals.rb`)
+* localization rules for 51 languages (`config/locales/*.(yml|rb)`)
+* locale fallback support (will search for translation using `I18n.default_locale` when not found using requested locale)
+* web UI to view your application’s translations (`/globalize/translations`)
+
+Javascript features:
+
+* all translations defined in `config/locales/*` are available in javascript
+* localization support for dates, times, numbers, currencies (localization rules are read from `config/locales/*.(yml|rb)`)
+* locale fallback support (will search for translation using `I18n.default_locale` when not found using requested locale)
+* global t() and l() helpers to translate and localize phrases, respectively
+* does not depend on any other external javascript library
+
+
+This gem also integrates your application with [Globalize](http://store.exvo.com/apps/shops/globalize/items/globalize-125). Globalize is a service for website owners, who want to translate their websites into multiple languages by using human (as opposed to machine/automatic) translators.
 
 
 
@@ -137,7 +156,7 @@ I18n.strftime(I18n.parseDate("<%= Time.now %>"), "%Y/%m/%d %H:%M")
 
 // uses formats from `config/locale/en.yml` file
 I18n.l("date.formats.default", "Wed Sep 14 12:03:11 +0200 2011")
-=> "14-09-2011"
+=> "2011-09-14"
 
 I18n.l("date.formats.long", "2011-09-14")
 => "September 14, 2011"
@@ -165,7 +184,7 @@ $ bundle exec rake globalize:translations:dump:ruby
 
 ## Globalize integration
 
-In order to fully integrate this gem with Globalize, after installing it you need to register your application (http://globalize.exvo.com/) and order some translations (Globalize should automatically detect the gem installation and should let you choose the JSON translations option).
+In order to fully integrate this gem with Globalize, after installing it you need to [register your application](http://store.exvo.com/apps/shops/globalize/items/globalize-125) and order some translations (Globalize should automatically detect the gem installation and should let you choose the JSON translations option).
 
 By default a link between your application and Globalize is established by using `request.host` by the gem. If your application’s main DNS record is a CNAME (as is the common case when using Heroku), you can set your application’s domain in the `config/initializers/exvo_globalize.rb` file:
 
@@ -206,18 +225,18 @@ and
 $ jasmine-headless-webkit -c
 ```
 
-There is a great guide for setting up `jasmine-headless-webkit` in your OS if you have problems with it:
-http://johnbintz.github.com/jasmine-headless-webkit/
+There is a [great guide](http://johnbintz.github.com/jasmine-headless-webkit/) for setting up `jasmine-headless-webkit` in your OS if you have problems with it.
 
 
 
 ## Copyrights
 
-exvo_globalize is based on the following projects:
-https://github.com/svenfuchs/i18n
-https://github.com/svenfuchs/rails-i18n/
-https://github.com/toretore/babilu
-https://github.com/spider-network/i18n-js
+[exvo_globalize](https://github.com/Exvo/exvo_globalize/) is based on the following projects:
+
+* [i18n](https://github.com/svenfuchs/i18n)
+* [rails-i18n](https://github.com/svenfuchs/rails-i18n/)
+* [babilu](https://github.com/toretore/babilu)
+* [i18n-js](https://github.com/spider-network/i18n-js)
 
 
 Copyright © 2011 Exvo.com Development BV, released under the MIT license
