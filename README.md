@@ -67,11 +67,83 @@ Basic support for I18n in the javascript is included. In order for it to work yo
 Now you can use translations inside your javascript:
 
 ```js
-t("new")
-=> "New"
+t("hello")
+=> "Hello world!"
 ```
 
-The above, of course, expects you to have the `:new` key for the current `I18n.locale` in one of your `config/locales/*.yml` files.
+The above, of course, expects you to have the `:hello` key for the current `I18n.locale` in one of your `config/locales/*.yml` files.
+
+
+The following I18n features are supported in javascript:
+
+
+### Locale fallback
+
+If there is no translation in the desired `locale`, there will be another check performed to see if there is a translation available in the `default_locale`. If there is, display it.
+
+By default, when including two javascript tags in your application (see installation notes), you will have translations in the desired locale merged with translations for the default_locale available in the javascript.
+
+
+### Localization
+
+All standard I18n keys (see `config/locales/*` in this gem’s directory) are used for various localization rules. Examples follows (for `:en` locale).
+
+
+#### Numbers
+
+```js
+I18n.toNumber(1234)
+=> "1,234.000"
+
+l("number", 1234)
+=> "1,234.000"
+```
+
+#### Percentages
+
+```js
+I18n.toPercentage(1234)
+=> "1234.000%"
+
+l("percentage", 1234)
+=> "1234.000%"
+```
+
+#### Currencies
+
+```js
+I18n.toCurrency(12)
+=> "12,00 USD"
+
+l("currency", 12)
+=> "12,00 USD"
+```
+
+
+#### Numbers in human sizes
+
+```js
+I18n.toHumanSize(1024)
+=> "1KB"
+```
+
+
+#### Dates and times
+
+```js
+// uses ERB Ruby interpolation
+I18n.strftime(I18n.parseDate("<%= Time.now %>"), "%Y/%m/%d %H:%M")
+=> "2011/09/14 12:03"
+
+// uses formats from `config/locale/en.yml` file
+I18n.l("date.formats.default", "Wed Sep 14 12:03:11 +0200 2011")
+=> "14-09-2011"
+
+I18n.l("date.formats.long", "2011-09-14")
+=> "September 14, 2011"
+```
+
+See `spec/javascripts/exvo_globalize_i18n_spec.js` for all available localization forms.
 
 
 
@@ -145,6 +217,7 @@ exvo_globalize is based on the following projects:
 https://github.com/svenfuchs/i18n
 https://github.com/svenfuchs/rails-i18n/
 https://github.com/toretore/babilu
+https://github.com/spider-network/i18n-js
 
 
 Copyright © 2011 Exvo.com Development BV, released under the MIT license
