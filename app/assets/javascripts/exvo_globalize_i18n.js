@@ -1,3 +1,7 @@
+//
+// exvo_globalize_i18n.js
+// Version: 0.5.0
+//
 (function() {
 
   I18n = {};
