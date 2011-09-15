@@ -7,6 +7,11 @@ I18n.translations = {
     hello: "Hello %{name}!",
     world: "World",
 
+    contact: {
+      one: "1 Contact",
+      other: "%{count} Contacts"
+    },
+
     page: {
       footer: "Footer",
       title: "Title",
@@ -82,7 +87,8 @@ I18n.translations = {
           units: {
             byte: {
               one:   "bajt",
-              other: "bajty"
+              few: "bajty",
+              many: "bajty"
             },
             kb: "KB",
             mb: "MB",
@@ -93,6 +99,19 @@ I18n.translations = {
       }
     },
 
-    world: "Świat"
+    world: "Świat",
+
+    contact: {
+      one: "1 Kontakt",
+      few: "%{count} Kontakty",
+      other: "%{count} Kontaktów"
+    }
+  },
+
+  pt: {
+    contact: {
+      one: "%{count} Contato",
+      other: "%{count} Contatos"
+    }
   }
 }
