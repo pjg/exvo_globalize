@@ -1,5 +1,6 @@
 *.gem
 .bundle
+.jhw-cache
 Gemfile.lock
 pkg/*
 log/*
