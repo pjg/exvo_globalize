@@ -365,8 +365,9 @@ describe("Date parsing", function() {
     expect(I18n.strftime(date, "%I")).toEqual("12")
   })
 
-  it("parses and formats a Ruby Time.now.to_s string ", function() {
-    expect(I18n.strftime(I18n.parseDate("Wed Sep 14 12:03:11 +0200 2011"), "%Y/%m/%d %H:%M")).toEqual("2011/09/14 12:03")
+  it("parses and formats a Ruby Time.now.to_s string", function() {
+    // the `Time.now` string below is devoid of timezone information; this way this test can pass in different timezones
+    expect(I18n.strftime(I18n.parseDate("Wed Sep 14 12:03:11 2011"), "%Y/%m/%d %H:%M")).toEqual("2011/09/14 12:03")
   })
 
   it("localizes date strings", function() {
@@ -376,7 +377,7 @@ describe("Date parsing", function() {
   })
 
   it("localizes time strings", function() {
-    expect(I18n.l("time.formats.default", "2009-11-29 15:07:59")).toEqual("nie, 29 lis 2009 15:07:59 +0100")
+    expect(I18n.l("time.formats.default", "2009-11-29 15:07:59")).toMatch("nie, 29 lis 2009 15:07:59")
     expect(I18n.l("time.formats.short", "2009-01-07 09:12:35")).toEqual("07 sty 09:12")
     expect(I18n.l("time.formats.long", "2009-11-29 15:07:59")).toEqual("listopad 29, 2009 15:07")
   })
