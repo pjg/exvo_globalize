@@ -15,6 +15,17 @@
     });
   };
 
+  //Check if an Array contains an object
+  function isInArray(a, obj) {
+    var i = a.length;
+    while (i--) {
+       if (a[i] === obj) {
+           return true;
+       }
+    }
+    return false;
+  };
+
   // Split "foo.bar" to ["foo", "bar"] if key is a string
   function keyToArray(key) {
     if (!key) return [];
@@ -373,21 +384,21 @@
     "am": I18n.other_default_pluralization_rule,
     "ar": function(value,  count) {
       if (typeof count != 'number') return value;
-      return count == 0 ? value.zero : count == 1 ? value.one : count == 2 ? value.two : count % 100 in [3, 4, 5, 6, 7, 8, 9, 10] ? value.few : count % 100 in [3, 4, 5, 6, 7, 8, 9, 10] ? value.few : [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99] ? value.many : value.other;
+      return count == 0 ? value.zero : count == 1 ? value.one : count == 2 ? value.two : isInArray([3, 4, 5, 6, 7, 8, 9, 10], count % 100) ? value.few : isInArray([3, 4, 5, 6, 7, 8, 9, 10], count % 100) ? value.few : isInArray([11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99], count % 100) ? value.many : value.other;
     },
     "az": function(value, count) { return value.other},
     "be": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && !count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : valye.other;
+      return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : valye.other;
     },
     "bg": I18n.default_pluralization_rule,
     "bh": I18n.default_pluralization_rule,
     "bn": I18n.default_pluralization_rule,
     "bo": function(value, count) { return value.other},
     "bs": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && !count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : value.other;
+      return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
     "ca": I18n.default_pluralization_rule,
-    "cs": function(value, count) { return count == 1 ? value.one : count in [2,3,4] ? value.few : value.other },
+    "cs": function(value, count) { return count == 1 ? value.one : isInArray([2,3,4], count) ? value.few : value.other },
     "cy": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : count == 8 || count == 11 ? value.many : value.other },
     "da": I18n.default_pluralization_rule,
     "de": I18n.default_pluralization_rule,
@@ -413,7 +424,7 @@
     "he": I18n.default_pluralization_rule,
     "hi": I18n.other_default_pluralization_rule,
     "hr": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && !count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : value.other
+      return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other
     },
     "hu": function(value, count) { return value.other },
     "id": function(value, count) { return value.other },
@@ -430,7 +441,7 @@
     "lb": I18n.default_pluralization_rule,
     "ln": I18n.other_default_pluralization_rule,
     "lt": function(value, count) {
-      return count % 10 == 1 && ! count % 100 in [11, 12, 13, 14, 15, 16, 17, 18, 19] ? value.one : count % 10 in [2, 3, 4, 5, 6, 7, 8, 9] && ! count % 100 in [11, 12, 13, 14, 15, 16, 17, 18, 19] ? value.few : value.other
+      return count % 10 == 1 && !  isInArray([11, 12, 13, 14, 15, 16, 17, 18, 19], count % 100) ? value.one : isInArray([2, 3, 4, 5, 6, 7, 8, 9], count % 10) && ! isInArray([11, 12, 13, 14, 15, 16, 17, 18, 19], count % 100) ? value.few : value.other
     },
     "lv": function(value, count) { return count == 0 ? value.zero : count % 10 == 1 && count % 100 != 11 ? value.one : value.other },
     "mg": I18n.default_pluralization_rule,
@@ -441,7 +452,7 @@
     "mr": I18n.default_pluralization_rule,
     "ms": function(value, count) { return value.other },
     "mt": function(value, count) {
-      return count == 1 ? value.one : count == 0 || count % 100 in [2,3,4,5,6,7,8,9,10] ? value.few : count % 100 in [11,12,13,14,15,16,17,18,19] ? value.many : value.other;
+      return count == 1 ? value.one : count == 0 || isInArray([2,3,4,5,6,7,8,9,10], count % 100) ? value.few : isInArray([11,12,13,14,15,16,17,18,19], count % 100) ? value.many : value.other;
     },
     "my": function(value, count) { return value.other },
     "nah": I18n.default_pluralization_rule,
@@ -455,21 +466,21 @@
     "pa": I18n.default_pluralization_rule,
     "pap": I18n.default_pluralization_rule,
     "pl": function(value, count) {
-      return count == 1 ? value.one : count % 10 in [2,3,4] && !(count % 100 in [12,13,14]) ? value.few : value.other;
+      return count == 1 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : value.other;
     },
     "ps": I18n.default_pluralization_rule,
     "pt": I18n.other_default_pluralization_rule,
     "pt-PT": I18n.default_pluralization_rule,
     "ro": function(value, count) { return count == 1 ? value.one : count == 0 ? value.few : value.other},
     "ru": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && ! count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : value.other;
+      return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
     "se": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other},
     "sh": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && ! count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : value.other;
+      return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
-    "sk": function(value, count) { return count == 1 ? value.one : count in [2,3,4] ? valuer.few : value.other; },
-    "sl": function(value, count) { return count % 100 == 1 ? value.one : count % 100 == 2 ? value.two : count % 100 in [3,4] ? value.few : value.other},
+    "sk": function(value, count) { return count == 1 ? value.one : isInArray([2,3,4], count) ? valuer.few : value.other; },
+    "sl": function(value, count) { return count % 100 == 1 ? value.one : count % 100 == 2 ? value.two :  isInArray([3,4], count % 100) ? value.few : value.other},
     "sma": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other },
     "smi": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other },
     "smj": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other },
@@ -478,7 +489,7 @@
     "so": I18n.default_pluralization_rule,
     "sq": I18n.default_pluralization_rule,
     "sr": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && ! count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : value.other;
+      return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && ! isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
     "sv": I18n.default_pluralization_rule,
     "sw": I18n.default_pluralization_rule,
@@ -491,7 +502,7 @@
     "to": function(value, count) { return value.other},
     "tr": function(value, count) { return value.other},
     "uk": function(value, count) {
-      return count % 10 == 1 && count % 100 != 11 ? value.one : count % 10 in [2,3,4] && ! count % 100 in [12,13,14] ? value.few : count % 10 == 0 || count % 10 in [5,6,7,8,9] || count % 100 in [11,12,13,14] ? value.many : value.other;
+      return count % 10 == 1 && count % 100 != 11 ? value.one :  isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
     "ur": I18n.default_pluralization_rule,
     "vi": function(value, count) { return value.other},
