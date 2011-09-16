@@ -204,16 +204,31 @@ http://yourawesomewebapp.com/globalize/translations
 And pressing `Update translations`.
 
 
+### Caveats
 
-## Running the tests
+* Adding or changing any existing translations requires application restart for those new updated translations to be visible (it is because of the caching mechanism, which does not currently support cache-invalidation).
+* Heroku considerations: updating translations from Globalize, when there are many translations in many different languages is a time consuming process. Unfortunately Heroku has a habit of silently killing web processes running longer than a specified period of time (typically 30s). When that happenes your translations will be only partially updated. Best way to deal with that is to update them from `heroku console` using this script:
 
-Running tests via `Guard` is the recommended way:
+```ruby
+ENV["GLOBALIZE_USE_PRODUCTION_SERVER"] = "true"
+
+@globalize_app = GlobalizeApp.new("your-applications-host-registered-at-globalize")
+
+translations = @globalize_app.fetch_translations
+I18n.backend.store_nested_translations(translations)
+```
+
+
+
+## Running the specs
+
+Running specs via `Guard` is the recommended way:
 
 ```bash
 $ bundle exec guard
 ```
 
-But tests can be run separately as well:
+But specs can be run separately as well:
 
 ```bash
 $ bundle exec rspec spec
