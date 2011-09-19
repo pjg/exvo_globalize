@@ -14,10 +14,11 @@ Ruby/Rails features:
 Javascript features:
 
 * all translations defined in `config/locales/*` are available in javascript
-* localization support for dates, times, numbers, currencies (localization rules are read from `config/locales/*.(yml|rb)`)
+* localization support for dates, times, numbers, currencies (localization rules are read from `config/locales/*.(yml|rb)`) (support at the same level as in Ruby/Rails)
 * locale fallback support (will search for translation using `I18n.default_locale` when not found using requested locale)
 * global t() and l() helpers to translate and localize phrases, respectively
 * does not depend on any other external javascript library
+* pluralizations rules defined for 108 languages (in `exvo_globalize_i18n.js`)
 
 
 This gem also integrates your application with [Globalize](http://store.exvo.com/apps/shops/globalize/items/globalize-125). Globalize is a service for website owners, who want to translate their websites into multiple languages by using human (as opposed to machine/automatic) translators.
