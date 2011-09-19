@@ -6,16 +6,7 @@
 
   I18n = {};
 
-  var interpolatePattern = /%\{([^}]+)\}/g;
-
-  // Replace %{foo} with obj.foo
-  function interpolate(str, obj) {
-    return str.replace(interpolatePattern, function() {
-      return typeof obj[arguments[1]] == 'undefined' ? arguments[0] : obj[arguments[1]];
-    });
-  };
-
-  //Check if an Array contains an object
+  // Check if an Array contains an object
   function isInArray(a, obj) {
     var i = a.length;
     while (i--) {
@@ -26,14 +17,23 @@
     return false;
   };
 
+  var interpolatePattern = /%\{([^}]+)\}/g;
+
+  // Replace %{foo} with obj.foo
+  I18n.interpolate = function(str, obj) {
+    return str.replace(interpolatePattern, function() {
+      return typeof obj[arguments[1]] == 'undefined' ? arguments[0] : obj[arguments[1]];
+    });
+  };
+
   // Split "foo.bar" to ["foo", "bar"] if key is a string
-  function keyToArray(key) {
+  I18n.keyToArray = function(key) {
     if (!key) return [];
     if (typeof key != "string") return key;
     return key.split('.');
   };
 
-  function locale() {
+  I18n.current_locale = function() {
     return I18n.locale || I18n.defaultLocale;
   };
 
@@ -85,14 +85,14 @@
     } else {
       opts = opts || {};
       opts.defaultValue = opts.defaultValue || null;
-      key = keyToArray(opts.scope).concat(keyToArray(key));
-      var value = this.lookup(locale(), key, opts.defaultValue);
+      key = I18n.keyToArray(opts.scope).concat(I18n.keyToArray(key));
+      var value = this.lookup(I18n.current_locale(), key, opts.defaultValue);
 
       // fall back to I18n.default_locale for missing translations
       if (value == null && I18n.locale != I18n.default_locale) value = this.lookup(I18n.default_locale, key, opts.defaultLocale);
 
       if (typeof value != "string" && value) value = this.pluralize(value, opts.count);
-      if (typeof value == "string") value = interpolate(value, opts);
+      if (typeof value == "string") value = I18n.interpolate(value, opts);
       if (value == null) value = this.missingTranslation(key)
       return value;
     }
@@ -119,7 +119,7 @@
       if (defaults.length == 0) {
         return null;
       } else if (defaults[0].substr(0,1) == ':') {
-        return this.lookup(locale, keys.slice(0, keys.length - 1).concat(keyToArray(defaults[0].substr(1))), defaults.slice(1));
+        return this.lookup(locale, keys.slice(0, keys.length - 1).concat(I18n.keyToArray(defaults[0].substr(1))), defaults.slice(1));
       } else {
         return defaults[0];
       }
@@ -131,7 +131,7 @@
       case "currency":
         return this.toCurrency(value);
       case "number":
-        scope = this.lookup(locale(), ["number", "format"]);
+        scope = this.lookup(I18n.current_locale(), ["number", "format"]);
         return this.toNumber(value, scope);
       case "percentage":
         return this.toPercentage(value);
@@ -179,7 +179,7 @@
 
   I18n.toTime = function(scope, d) {
     var date = this.parseDate(d);
-    var format = this.lookup(locale(), keyToArray(scope));
+    var format = this.lookup(I18n.current_locale(), I18n.keyToArray(scope));
 
     if (date.toString().match(/invalid/i)) {
       return date.toString();
@@ -193,14 +193,14 @@
   };
 
   I18n.strftime = function(date, format) {
-    var options = this.lookup(locale(), ["date"]);
+    var options = this.lookup(I18n.current_locale(), ["date"]);
 
     if (!options) {
       return date.toString();
     }
 
     // get meridian from ":time" i18n key
-    options.time = this.lookup(locale(), ["time"]);
+    options.time = this.lookup(I18n.current_locale(), ["time"]);
     if (!options.time || !options.time.am || !options.time.pm) {
       options.time = { am: "AM", pm: "PM" };
     }
@@ -260,7 +260,7 @@
   I18n.toNumber = function(number, options) {
     options = this.prepareOptions(
       options,
-      this.lookup(locale(), ["number", "format"]),
+      this.lookup(I18n.current_locale(), ["number", "format"]),
       {precision: 3, separator: ".", delimiter: ",", strip_insignificant_zeros: false}
     );
 
@@ -305,8 +305,8 @@
   I18n.toCurrency = function(number, options) {
     options = this.prepareOptions(
       options,
-      this.lookup(locale(), ["number", "currency", "format"]),
-      this.lookup(locale(), ["number", "format"]),
+      this.lookup(I18n.current_locale(), ["number", "currency", "format"]),
+      this.lookup(I18n.current_locale(), ["number", "format"]),
       {unit: "$", precision: 2, format: "%u%n", delimiter: ",", separator: "."}
     );
 
@@ -355,8 +355,8 @@
   I18n.toPercentage = function(number, options) {
     options = this.prepareOptions(
       options,
-      this.lookup(locale(), ["number", "percentage", "format"]),
-      this.lookup(locale(), ["number", "format"]),
+      this.lookup(I18n.current_locale(), ["number", "percentage", "format"]),
+      this.lookup(I18n.current_locale(), ["number", "format"]),
       {precision: 3, separator: ".", delimiter: ""}
     );
 
@@ -367,7 +367,7 @@
   // Pluralization function
   I18n.pluralize = function(value, count) {
     if (typeof count != 'number') return value;
-    return I18n.plurals[locale()](value, count);
+    return I18n.plurals[I18n.current_locale()](value, count);
   };
 
   // Default pluralization rules
@@ -514,7 +514,7 @@
 
   // Returns '[missing translation: "en.missing"]' when translation is not found
   I18n.missingTranslation = function(key) {
-    var message = '[missing translation: "' + locale();
+    var message = '[missing translation: "' + I18n.current_locale();
     for (var i in key) {
       message += "." + key[i];
     }
