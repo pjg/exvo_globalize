@@ -386,26 +386,36 @@ describe("Date parsing", function() {
 
 describe("Pluralizations", function() {
 
-  it("correctly pluralizes the English phrase", function () {
+  it("correctly pluralizes the English phrase", function() {
     I18n.locale = "en"
     expect(I18n.t("contact", {count: 1})).toEqual("1 Contact")
     expect(I18n.t("contact", {count: 2})).toEqual("2 Contacts")
+    expect(I18n.t("contact", {count: 22})).toEqual("22 Contacts")
   })
 
-  it("correctly pluralizes the Portuguese phrase", function () {
-    I18n.locale = "pt"
-    expect(I18n.t("contact", {count: 0})).toEqual("0 Contato")
-    expect(I18n.t("contact", {count: 1})).toEqual("1 Contato")
-    expect(I18n.t("contact", {count: 2})).toEqual("2 Contatos")
+  it("correctly pluralizes the French phrase", function() {
+    I18n.locale = "fr"
+    expect(I18n.t("contact", {count: 0})).toEqual("0 contact")
+    expect(I18n.t("contact", {count: 1})).toEqual("1 contact")
+    expect(I18n.t("contact", {count: 2})).toEqual("2 contacts")
+    expect(I18n.t("contact", {count: 5})).toEqual("5 contacts")
   })
 
-  it("correctly pluralizes the Polish phrase", function () {
+  it("correctly pluralizes the Polish phrase", function() {
     I18n.locale = "pl"
     expect(I18n.t("contact", {count: 1})).toEqual("1 Kontakt")
     expect(I18n.t("contact", {count: 2})).toEqual("2 Kontakty")
     expect(I18n.t("contact", {count: 5})).toEqual("5 Kontaktów")
     expect(I18n.t("contact", {count: 12})).toEqual("12 Kontaktów")
     expect(I18n.t("contact", {count: 22})).toEqual("22 Kontakty")
+  })
+
+  it("correctly pluralizes the Portuguese phrase", function() {
+    I18n.locale = "pt"
+    expect(I18n.t("contact", {count: 0})).toEqual("0 Contato")
+    expect(I18n.t("contact", {count: 1})).toEqual("1 Contato")
+    expect(I18n.t("contact", {count: 2})).toEqual("2 Contatos")
+    expect(I18n.t("contact", {count: 22})).toEqual("22 Contatos")
   })
 
 })

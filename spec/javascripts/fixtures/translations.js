@@ -22,6 +22,13 @@ I18n.translations = {
     }
   },
 
+  fr: {
+    contact: {
+      one: "%{count} contact",
+      other: "%{count} contacts"
+    }
+  },
+
   pl: {
     date: {
       formats: {
