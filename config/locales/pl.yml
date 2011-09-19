@@ -114,7 +114,8 @@ pl:
         units:
           byte:
             one:   "bajt"
-            other: "bajty"
+            few:   "bajty"
+            other: "bajtów"
           kb: "KB"
           mb: "MB"
           gb: "GB"

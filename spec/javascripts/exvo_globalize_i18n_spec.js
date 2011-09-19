@@ -164,11 +164,13 @@ describe("Localization of human sizes", function() {
     I18n.locale = "pl"
   })
 
-  it("localizes numbers in human sizes", function() {
+  it("localizes numbers in human sizes using pluralization rules", function() {
     kb = 1024
 
     expect(I18n.toHumanSize(1)).toEqual("1bajt")
-    expect(I18n.toHumanSize(102)).toEqual("102bajty")
+    expect(I18n.toHumanSize(5)).toEqual("5bajtów")
+    expect(I18n.toHumanSize(12)).toEqual("12bajtów")
+    expect(I18n.toHumanSize(22)).toEqual("22bajty")
 
     expect(I18n.toHumanSize(kb)).toEqual("1KB")
     expect(I18n.toHumanSize(kb * 1.5)).toEqual("1,5KB")

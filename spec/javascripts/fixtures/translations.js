@@ -93,9 +93,9 @@ I18n.translations = {
           format: "%n %u",
           units: {
             byte: {
-              one:   "bajt",
+              one: "bajt",
               few: "bajty",
-              many: "bajty"
+              other: "bajtów"
             },
             kb: "KB",
             mb: "MB",
