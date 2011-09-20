@@ -1,6 +1,6 @@
 //
 // exvo_globalize_i18n.js
-// Version: 0.5.1
+// Version: 0.5.2
 //
 (function() {
 
