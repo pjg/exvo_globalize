@@ -77,9 +77,10 @@ describe("Default value fallback", function() {
 
 describe("Locale fallback", function() {
 
-  it("falls back to I18n.default_locale when there is no translation available for the requested locale", function() {
+  it("falls back to I18n.defaultLocale when there is no translation available for the requested locale", function() {
     I18n.locale = "pl"
-    expect(I18n.t("title", {scope: "page"})).toEqual("Title")
+    expect(I18n.t("world")).toEqual("Świat") // existing translation
+    expect(I18n.t("title", {scope: "page"})).toEqual("Title") // missing translation
   })
 
 })

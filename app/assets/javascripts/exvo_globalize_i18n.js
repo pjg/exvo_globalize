@@ -6,15 +6,15 @@
 
   I18n = {};
 
-  // Check if an Array contains an object
+  // Check if Array contains an object
   function isInArray(a, obj) {
-    var i = a.length;
-    while (i--) {
-       if (a[i] === obj) {
-           return true;
-       }
-    }
-    return false;
+    var i = a.length;
+    while (i--) {
+      if (a[i] === obj) {
+        return true;
+      }
+    }
+    return false;
   };
 
   var interpolatePattern = /%\{([^}]+)\}/g;
@@ -33,7 +33,7 @@
     return key.split('.');
   };
 
-  I18n.current_locale = function() {
+  I18n.currentLocale = function() {
     return I18n.locale || I18n.defaultLocale;
   };
 
@@ -86,10 +86,10 @@
       opts = opts || {};
       opts.defaultValue = opts.defaultValue || null;
       key = I18n.keyToArray(opts.scope).concat(I18n.keyToArray(key));
-      var value = this.lookup(I18n.current_locale(), key, opts.defaultValue);
+      var value = this.lookup(I18n.currentLocale(), key, opts.defaultValue);
 
-      // fall back to I18n.default_locale for missing translations
-      if (value == null && I18n.locale != I18n.default_locale) value = this.lookup(I18n.default_locale, key, opts.defaultLocale);
+      // fall back to I18n.defaultLocale for missing translations
+      if (value == null && I18n.locale != I18n.defaultLocale) value = this.lookup(I18n.defaultLocale, key, opts.defaultLocale);
 
       if (typeof value != "string" && value) value = this.pluralize(value, opts.count);
       if (typeof value == "string") value = I18n.interpolate(value, opts);
@@ -131,7 +131,7 @@
       case "currency":
         return this.toCurrency(value);
       case "number":
-        scope = this.lookup(I18n.current_locale(), ["number", "format"]);
+        scope = this.lookup(I18n.currentLocale(), ["number", "format"]);
         return this.toNumber(value, scope);
       case "percentage":
         return this.toPercentage(value);
@@ -179,7 +179,7 @@
 
   I18n.toTime = function(scope, d) {
     var date = this.parseDate(d);
-    var format = this.lookup(I18n.current_locale(), I18n.keyToArray(scope));
+    var format = this.lookup(I18n.currentLocale(), I18n.keyToArray(scope));
 
     if (date.toString().match(/invalid/i)) {
       return date.toString();
@@ -193,14 +193,14 @@
   };
 
   I18n.strftime = function(date, format) {
-    var options = this.lookup(I18n.current_locale(), ["date"]);
+    var options = this.lookup(I18n.currentLocale(), ["date"]);
 
     if (!options) {
       return date.toString();
     }
 
     // get meridian from ":time" i18n key
-    options.time = this.lookup(I18n.current_locale(), ["time"]);
+    options.time = this.lookup(I18n.currentLocale(), ["time"]);
     if (!options.time || !options.time.am || !options.time.pm) {
       options.time = { am: "AM", pm: "PM" };
     }
@@ -260,7 +260,7 @@
   I18n.toNumber = function(number, options) {
     options = this.prepareOptions(
       options,
-      this.lookup(I18n.current_locale(), ["number", "format"]),
+      this.lookup(I18n.currentLocale(), ["number", "format"]),
       {precision: 3, separator: ".", delimiter: ",", strip_insignificant_zeros: false}
     );
 
@@ -305,8 +305,8 @@
   I18n.toCurrency = function(number, options) {
     options = this.prepareOptions(
       options,
-      this.lookup(I18n.current_locale(), ["number", "currency", "format"]),
-      this.lookup(I18n.current_locale(), ["number", "format"]),
+      this.lookup(I18n.currentLocale(), ["number", "currency", "format"]),
+      this.lookup(I18n.currentLocale(), ["number", "format"]),
       {unit: "$", precision: 2, format: "%u%n", delimiter: ",", separator: "."}
     );
 
@@ -355,8 +355,8 @@
   I18n.toPercentage = function(number, options) {
     options = this.prepareOptions(
       options,
-      this.lookup(I18n.current_locale(), ["number", "percentage", "format"]),
-      this.lookup(I18n.current_locale(), ["number", "format"]),
+      this.lookup(I18n.currentLocale(), ["number", "percentage", "format"]),
+      this.lookup(I18n.currentLocale(), ["number", "format"]),
       {precision: 3, separator: ".", delimiter: ""}
     );
 
@@ -367,21 +367,21 @@
   // Pluralization function
   I18n.pluralize = function(value, count) {
     if (typeof count != 'number') return value;
-    return I18n.plurals[I18n.current_locale()](value, count);
+    return I18n.plurals[I18n.currentLocale()](value, count);
   };
 
   // Default pluralization rules
-  I18n.default_pluralization_rule = function(value, count) {
+  I18n.defaultPluralizationRule = function(value, count) {
     return count == 1 ? value.one : value.other;
   }
-  I18n.other_default_pluralization_rule = function(value, count) {
+  I18n.otherDefaultPluralizationRule = function(value, count) {
     return count == 1 || count == 0 ? value.one : value.other;
   }
 
   // Pluralization Rules for each language
   I18n.plurals = {
-    "af": I18n.default_pluralization_rule,
-    "am": I18n.other_default_pluralization_rule,
+    "af": I18n.defaultPluralizationRule,
+    "am": I18n.otherDefaultPluralizationRule,
     "ar": function(value,  count) {
       if (typeof count != 'number') return value;
       return count == 0 ? value.zero : count == 1 ? value.one : count == 2 ? value.two : isInArray([3, 4, 5, 6, 7, 8, 9, 10], count % 100) ? value.few : isInArray([3, 4, 5, 6, 7, 8, 9, 10], count % 100) ? value.few : isInArray([11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99], count % 100) ? value.many : value.other;
@@ -390,87 +390,87 @@
     "be": function(value, count) {
       return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : valye.other;
     },
-    "bg": I18n.default_pluralization_rule,
-    "bh": I18n.default_pluralization_rule,
-    "bn": I18n.default_pluralization_rule,
+    "bg": I18n.defaultPluralizationRule,
+    "bh": I18n.defaultPluralizationRule,
+    "bn": I18n.defaultPluralizationRule,
     "bo": function(value, count) { return value.other; },
     "bs": function(value, count) {
       return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
-    "ca": I18n.default_pluralization_rule,
+    "ca": I18n.defaultPluralizationRule,
     "cs": function(value, count) { return count == 1 ? value.one : isInArray([2,3,4], count) ? value.few : value.other; },
     "cy": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : count == 8 || count == 11 ? value.many : value.other; },
-    "da": I18n.default_pluralization_rule,
-    "de": I18n.default_pluralization_rule,
+    "da": I18n.defaultPluralizationRule,
+    "de": I18n.defaultPluralizationRule,
     "dz": function(value, count) { return value.other; },
-    "el": I18n.default_pluralization_rule,
-    "en": I18n.default_pluralization_rule,
-    "eo": I18n.default_pluralization_rule,
-    "es": I18n.default_pluralization_rule,
-    "et": I18n.default_pluralization_rule,
-    "eu": I18n.default_pluralization_rule,
+    "el": I18n.defaultPluralizationRule,
+    "en": I18n.defaultPluralizationRule,
+    "eo": I18n.defaultPluralizationRule,
+    "es": I18n.defaultPluralizationRule,
+    "et": I18n.defaultPluralizationRule,
+    "eu": I18n.defaultPluralizationRule,
     "fa": function(value, count) { return value.other; },
-    "fi": I18n.default_pluralization_rule,
-    "fil": I18n.other_default_pluralization_rule,
-    "fo": I18n.default_pluralization_rule,
+    "fi": I18n.defaultPluralizationRule,
+    "fil": I18n.otherDefaultPluralizationRule,
+    "fo": I18n.defaultPluralizationRule,
     "fr": function(value, count) { return isInArray([0,1], count) ? value.one : value.other; },
-    "fur": I18n.default_pluralization_rule,
-    "fy": I18n.default_pluralization_rule,
+    "fur": I18n.defaultPluralizationRule,
+    "fy": I18n.defaultPluralizationRule,
     "ga": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other; },
-    "gl": I18n.default_pluralization_rule,
-    "gu": I18n.default_pluralization_rule,
-    "guw": I18n.other_default_pluralization_rule,
-    "ha": I18n.default_pluralization_rule,
-    "he": I18n.default_pluralization_rule,
-    "hi": I18n.other_default_pluralization_rule,
+    "gl": I18n.defaultPluralizationRule,
+    "gu": I18n.defaultPluralizationRule,
+    "guw": I18n.otherDefaultPluralizationRule,
+    "ha": I18n.defaultPluralizationRule,
+    "he": I18n.defaultPluralizationRule,
+    "hi": I18n.otherDefaultPluralizationRule,
     "hr": function(value, count) {
       return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
     "hu": function(value, count) { return value.other; },
     "id": function(value, count) { return value.other; },
-    "is": I18n.default_pluralization_rule,
-    "it": I18n.default_pluralization_rule,
-    "iw": I18n.default_pluralization_rule,
+    "is": I18n.defaultPluralizationRule,
+    "it": I18n.defaultPluralizationRule,
+    "iw": I18n.defaultPluralizationRule,
     "ja": function(value, count) { return value.other; },
     "jv": function(value, count) { return value.other; },
     "ka": function(value, count) { return value.other; },
     "km": function(value, count) { return value.other; },
     "kn": function(value, count) { return value.other; },
     "ko": function(value, count) { return value.other; },
-    "ku": I18n.default_pluralization_rule,
-    "lb": I18n.default_pluralization_rule,
-    "ln": I18n.other_default_pluralization_rule,
+    "ku": I18n.defaultPluralizationRule,
+    "lb": I18n.defaultPluralizationRule,
+    "ln": I18n.otherDefaultPluralizationRule,
     "lt": function(value, count) {
       return count % 10 == 1 && !  isInArray([11, 12, 13, 14, 15, 16, 17, 18, 19], count % 100) ? value.one : isInArray([2, 3, 4, 5, 6, 7, 8, 9], count % 10) && ! isInArray([11, 12, 13, 14, 15, 16, 17, 18, 19], count % 100) ? value.few : value.other;
     },
     "lv": function(value, count) { return count == 0 ? value.zero : count % 10 == 1 && count % 100 != 11 ? value.one : value.other; },
-    "mg": I18n.default_pluralization_rule,
+    "mg": I18n.defaultPluralizationRule,
     "mk": function(value, count) { return count % 10 == 1 ? value.one : value.other; },
-    "ml": I18n.default_pluralization_rule,
-    "mn": I18n.default_pluralization_rule,
+    "ml": I18n.defaultPluralizationRule,
+    "mn": I18n.defaultPluralizationRule,
     "mo": function(value, count) { return count ==1 ? value.one : count == 0 ? value.few : value.other; },
-    "mr": I18n.default_pluralization_rule,
+    "mr": I18n.defaultPluralizationRule,
     "ms": function(value, count) { return value.other; },
     "mt": function(value, count) {
       return count == 1 ? value.one : count == 0 || isInArray([2,3,4,5,6,7,8,9,10], count % 100) ? value.few : isInArray([11,12,13,14,15,16,17,18,19], count % 100) ? value.many : value.other;
     },
     "my": function(value, count) { return value.other; },
-    "nah": I18n.default_pluralization_rule,
-    "nb": I18n.default_pluralization_rule,
-    "ne": I18n.default_pluralization_rule,
-    "nl": I18n.default_pluralization_rule,
-    "nn": I18n.default_pluralization_rule,
-    "no": I18n.default_pluralization_rule,
-    "nso": I18n.other_default_pluralization_rule,
-    "or": I18n.default_pluralization_rule,
-    "pa": I18n.default_pluralization_rule,
-    "pap": I18n.default_pluralization_rule,
+    "nah": I18n.defaultPluralizationRule,
+    "nb": I18n.defaultPluralizationRule,
+    "ne": I18n.defaultPluralizationRule,
+    "nl": I18n.defaultPluralizationRule,
+    "nn": I18n.defaultPluralizationRule,
+    "no": I18n.defaultPluralizationRule,
+    "nso": I18n.otherDefaultPluralizationRule,
+    "or": I18n.defaultPluralizationRule,
+    "pa": I18n.defaultPluralizationRule,
+    "pap": I18n.defaultPluralizationRule,
     "pl": function(value, count) {
       return count == 1 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : value.other;
     },
-    "ps": I18n.default_pluralization_rule,
-    "pt": I18n.other_default_pluralization_rule,
-    "pt-PT": I18n.default_pluralization_rule,
+    "ps": I18n.defaultPluralizationRule,
+    "pt": I18n.otherDefaultPluralizationRule,
+    "pt-PT": I18n.defaultPluralizationRule,
     "ro": function(value, count) { return count == 1 ? value.one : count == 0 ? value.few : value.other; },
     "ru": function(value, count) {
       return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
@@ -486,35 +486,35 @@
     "smj": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other; },
     "smn": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other; },
     "sms": function(value, count) { return count == 1 ? value.one : count == 2 ? value.two : value.other; },
-    "so": I18n.default_pluralization_rule,
-    "sq": I18n.default_pluralization_rule,
+    "so": I18n.defaultPluralizationRule,
+    "sq": I18n.defaultPluralizationRule,
     "sr": function(value, count) {
       return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && ! isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
-    "sv": I18n.default_pluralization_rule,
-    "sw": I18n.default_pluralization_rule,
-    "ta": I18n.default_pluralization_rule,
-    "te": I18n.default_pluralization_rule,
+    "sv": I18n.defaultPluralizationRule,
+    "sw": I18n.defaultPluralizationRule,
+    "ta": I18n.defaultPluralizationRule,
+    "te": I18n.defaultPluralizationRule,
     "th": function(value, count) { return value.other; },
-    "ti": I18n.other_default_pluralization_rule,
-    "tk": I18n.default_pluralization_rule,
-    "tl": I18n.other_default_pluralization_rule,
+    "ti": I18n.otherDefaultPluralizationRule,
+    "tk": I18n.defaultPluralizationRule,
+    "tl": I18n.otherDefaultPluralizationRule,
     "to": function(value, count) { return value.other; },
     "tr": function(value, count) { return value.other; },
     "uk": function(value, count) {
       return count % 10 == 1 && count % 100 != 11 ? value.one : isInArray([2,3,4], count % 10) && !isInArray([12,13,14], count % 100) ? value.few : count % 10 == 0 || isInArray([5,6,7,8,9], count % 10) || isInArray([11,12,13,14], count % 100) ? value.many : value.other;
     },
-    "ur": I18n.default_pluralization_rule,
+    "ur": I18n.defaultPluralizationRule,
     "vi": function(value, count) { return value.other; },
-    "wa": I18n.other_default_pluralization_rule,
+    "wa": I18n.otherDefaultPluralizationRule,
     "yo": function(value, count) { return value.other; },
     "zh": function(value, count) { return value.other; },
-    "zu": I18n.default_pluralization_rule
+    "zu": I18n.defaultPluralizationRule
   }
 
   // Returns '[missing translation: "en.missing"]' when translation is not found
   I18n.missingTranslation = function(key) {
-    var message = '[missing translation: "' + I18n.current_locale();
+    var message = '[missing translation: "' + I18n.currentLocale();
     for (var i in key) {
       message += "." + key[i];
     }

@@ -15,7 +15,7 @@ Javascript features:
 
 * all translations defined in `config/locales/*` are available in javascript
 * localization support for dates, times, numbers, currencies (localization rules are read from `config/locales/*.(yml|rb)`) (support at the same level as in Ruby/Rails)
-* locale fallback support (will search for translation using `I18n.default_locale` when not found using requested locale)
+* locale fallback support (will search for translation using `I18n.defaultLocale` when not found using requested locale)
 * global t() and l() helpers to translate and localize phrases, respectively
 * does not depend on any other external javascript library
 * pluralizations rules defined for 108 languages (in `exvo_globalize_i18n.js`)

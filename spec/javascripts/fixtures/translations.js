@@ -1,5 +1,5 @@
 I18n.locale = 'en'
-I18n.default_locale = 'en'
+I18n.defaultLocale = 'en'
 
 I18n.translations = {
   en: {
