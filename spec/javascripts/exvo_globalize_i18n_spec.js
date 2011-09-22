@@ -77,17 +77,23 @@ describe("Default value fallback", function() {
 
 describe("Locale fallback", function() {
 
-  it("falls back to I18n.defaultLocale when there is no translation available for the requested locale", function() {
+  beforeEach(function() {
     I18n.locale = "pl"
+  })
+
+  it("falls back to I18n.defaultLocale when there is no translation available for the requested locale", function() {
     expect(I18n.t("world")).toEqual("Świat") // existing translation
     expect(I18n.t("title", {scope: "page"})).toEqual("Title") // missing translation
   })
 
-  it("falls back to I18n.defaultLocale even for missing pluralization keys", function() {
-    I18n.locale = "pl"
+  it("falls back to I18n.defaultLocale when there are missing pluralization keys", function() {
     expect(I18n.t("friend", {count: 1})).toEqual("1 Friend")
     expect(I18n.t("friend", {count: 2})).toEqual("2 Friends")
     expect(I18n.t("friend", {count: 5})).toEqual("5 Friends")
+  })
+
+  it("falls back to I18n.defaultLocale when there is variable interpolation involved", function() {
+    expect(I18n.t("hello", {name: "Paweł"})).toEqual("Hello Paweł!")
   })
 
 })
