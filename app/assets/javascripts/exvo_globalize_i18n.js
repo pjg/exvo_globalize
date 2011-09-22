@@ -1,6 +1,6 @@
 //
 // exvo_globalize_i18n.js
-// Version: 0.5.2
+// Version: 0.5.3
 //
 (function() {
 
@@ -86,12 +86,17 @@
       opts = opts || {};
       opts.defaultValue = opts.defaultValue || null;
       key = I18n.keyToArray(opts.scope).concat(I18n.keyToArray(key));
-      var value = this.lookup(I18n.currentLocale(), key, opts.defaultValue);
+
+      var locale = I18n.currentLocale();
+      var value = this.lookup(locale, key, opts.defaultValue);
 
       // fall back to I18n.defaultLocale for missing translations
-      if (value == null && I18n.locale != I18n.defaultLocale) value = this.lookup(I18n.defaultLocale, key, opts.defaultLocale);
+      if (value == null && I18n.locale != I18n.defaultLocale) {
+        value = this.lookup(I18n.defaultLocale, key, opts.defaultLocale);
+        locale = I18n.defaultLocale;
+      }
 
-      if (typeof value != "string" && value) value = this.pluralize(value, opts.count);
+      if (typeof value != "string" && value) value = this.pluralize(locale, value, opts.count);
       if (typeof value == "string") value = I18n.interpolate(value, opts);
       if (value == null) value = this.missingTranslation(key)
       return value;
@@ -365,9 +370,9 @@
   };
 
   // Pluralization function
-  I18n.pluralize = function(value, count) {
+  I18n.pluralize = function(locale, value, count) {
     if (typeof count != 'number') return value;
-    return I18n.plurals[I18n.currentLocale()](value, count);
+    return I18n.plurals[locale](value, count);
   };
 
   // Default pluralization rules

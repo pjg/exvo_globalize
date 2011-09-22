@@ -83,6 +83,13 @@ describe("Locale fallback", function() {
     expect(I18n.t("title", {scope: "page"})).toEqual("Title") // missing translation
   })
 
+  it("falls back to I18n.defaultLocale even for missing pluralization keys", function() {
+    I18n.locale = "pl"
+    expect(I18n.t("friend", {count: 1})).toEqual("1 Friend")
+    expect(I18n.t("friend", {count: 2})).toEqual("2 Friends")
+    expect(I18n.t("friend", {count: 5})).toEqual("5 Friends")
+  })
+
 })
 
 describe("Localization of numbers", function() {
@@ -394,6 +401,13 @@ describe("Pluralizations", function() {
     expect(I18n.t("contact", {count: 1})).toEqual("1 Contact")
     expect(I18n.t("contact", {count: 2})).toEqual("2 Contacts")
     expect(I18n.t("contact", {count: 22})).toEqual("22 Contacts")
+  })
+
+  it("correctly pluralizes another English phrase", function() {
+    I18n.locale = "en"
+    expect(I18n.t("friend", {count: 1})).toEqual("1 Friend")
+    expect(I18n.t("friend", {count: 2})).toEqual("2 Friends")
+    expect(I18n.t("friend", {count: 22})).toEqual("22 Friends")
   })
 
   it("correctly pluralizes the French phrase", function() {

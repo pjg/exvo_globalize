@@ -12,6 +12,11 @@ I18n.translations = {
       other: "%{count} Contacts"
     },
 
+    friend: {
+      one: "1 Friend",
+      other: "%{count} Friends"
+    },
+
     page: {
       footer: "Footer",
       title: "Title",
