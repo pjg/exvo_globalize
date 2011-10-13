@@ -24,7 +24,7 @@ class GlobalizeApp
   private
 
   def globalize_host
-    Rails.env.production? or ENV['GLOBALIZE_USE_PRODUCTION_SERVER'] == 'true' ? "globalize.exvo.com" : "globalize.exvo.co"
+    Rails.env.production? || ENV['GLOBALIZE_USE_PRODUCTION_SERVER'] == 'true' ? "globalize.exvo.com" : "globalize.exvo.co"
   end
 
   def translations_uri
